@@ -1,0 +1,25 @@
+<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+    <a class="btn btn-dark btn-floating mx-1"
+       role="button"
+       href="#">
+        <i class="fas fa-angle-double-up"></i>
+    </a>
+
+</div>
+<footer class="bg-dark text-light text-center text-lg-start mt-3">
+    <!-- Copyright -->
+    <div class=" text-center p-3" >
+        &copy; 2021 Copyright:  Taras Danylyshyn -- CONFERENCES -- Final Project
+        <a style="color: #EEEEEE"
+           class="mx-3"
+           href="https://github.com/TarikoDan/Conference-FP"
+           target="_blank"
+           role="button"
+        >
+            <i class="fab fa-github"></i>
+        </a>
+
+    </div>
+    <!-- Copyright -->
+</footer>
+

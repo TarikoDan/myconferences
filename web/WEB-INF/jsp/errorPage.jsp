@@ -1,0 +1,76 @@
+<%@ include file="/WEB-INF/jspf/page.jspf" %>
+<%@ page isErrorPage="true" %>
+
+<html>
+
+<c:set var="title" value="Error" scope="page" />
+<%@ include file="/WEB-INF/jspf/head.jspf" %>
+
+<body>
+
+<table class="container-md-3 mx-auto">
+
+    <%-- HEADER --%>
+    <%@ include file="/WEB-INF/jspf/header.jspf"%>
+    <%-- HEADER --%>
+
+    <tr >
+        <td >
+            <%-- CONTENT --%>
+
+            <h2 >
+                The following error occurred
+            </h2>
+
+            <%-- this way we get the error information (error 404)--%>
+            <c:set var="code" value="${requestScope.get('javax.servlet.error.status_code')}"/>
+            <c:set var="message" value="${requestScope['javax.servlet.error.message']}"/>
+
+            <%-- this way we get the exception --%>
+            <c:set var="exception" value="${requestScope['javax.servlet.error.exception']}"/>
+
+            <c:if test="${not empty code}">
+                <h3>Error code: ${code}</h3>
+            </c:if>
+
+            <c:if test="${not empty message}">
+                <h3>Message: ${message}</h3>
+            </c:if>
+
+            <%-- if get this page using forward --%>
+            <c:if test="${not empty errorMessage}">
+                <h3>Error message: ${errorMessage}</h3>
+            </c:if>
+
+            <%-- this way we print exception stack trace --%>
+            <c:if test="${not empty exception}">
+                <hr/>
+                <h3>Stack trace:</h3>
+                <c:forEach var="stackTraceElement" items="${exception.stackTrace}">
+                    ${stackTraceElement}
+                </c:forEach>
+            </c:if>
+
+            <form action="controller" method="post">
+                <input type="hidden" name="command" value="loginPage"/>
+                <button class="btn btn-warning btn-block mb-4">
+                    BACK to LogIN page
+                </button>
+            </form>
+
+            <a class="btn btn-success btn-block mb-4"
+                href="${pageContext.request.contextPath}">
+                BACK to home page
+            </a>
+
+
+
+            <%-- CONTENT --%>
+        </td>
+    </tr>
+
+
+</table>
+    <%@ include file="/WEB-INF/jspf/footer.jspf"%>
+</body>
+</html>

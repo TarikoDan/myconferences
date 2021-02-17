@@ -1,0 +1,156 @@
+<c:set var="email" value="${empty user.email?'not logined':user.email}" />
+<%--===========================================================================
+Header (top area).
+===========================================================================--%>
+<header>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/conference/en">
+                <img height="30px" src="${pageContext.request.contextPath}/images/logo-java-jdbc.png" alt="logo">
+            </a>
+
+            <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-mdb-toggle="collapse"
+                    data-mdb-target="#navbarExample01"
+                    aria-controls="navbarExample01"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+            >
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <div class="collapse navbar-collapse justify-content-center" id="navbarExample01">
+                <ul class="navbar-nav mb-2 mb-lg-0">
+                    <li class="nav-item ">
+                        <a class="nav-link active" aria-current="page" href="${pageContext.request.contextPath}">Home</a>
+                    </li>
+                    <li class="nav-item">
+<%--                        <a class="nav-link" href="#" >Events</a>--%>
+                        <a class="nav-link">
+                        <form method="post" action="controller">
+                            <input type="hidden" name="command" value="navEvents"/>
+                                <button type="submit" class="btn btn-dark">Events</button>
+                        </form>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Speakers</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">About</a>
+                    </li>
+                </ul>
+            </div>
+
+            <p class="col-md-1 my-auto">${email}</p>
+
+            <ul class="navbar-nav me-2">
+                <!-- Avatar -->
+                <li class="nav-item dropdown">
+                    <a
+                            class="nav-link dropdown-toggle d-flex align-items-center"
+                            href="#"
+                            id="navbarDropdownMenuLink"
+                            role="button"
+                            data-mdb-toggle="dropdown"
+                            aria-expanded="false"
+                    >
+                        <img
+                                <c:choose>
+                                    <c:when test="${not empty user}">
+                                        src="https://mdbootstrap.com/img/Photos/Avatars/img (31).jpg"
+                                    </c:when>
+                                    <c:otherwise>
+                                        src="${pageContext.request.contextPath}/images/user-icon.png"
+                                    </c:otherwise>
+                                </c:choose>
+<%--                                src="https://mdbootstrap.com/img/Photos/Avatars/img (31).jpg"--%>
+                                class="rounded-circle"
+                                height="22"
+                                alt=""
+                                loading="lazy"
+                        />
+                    </a>
+<%--                    <img height="30"--%>
+<%--                         class="rounded-circle"--%>
+<%--                         src="${pageContext.request.contextPath}/images/user-icon.png"--%>
+<%--                         alt="logo">--%>
+
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <li><form method="post" action="controller">
+                            <input type="hidden" name="command" value="loginPage"/>
+                            <button type="submit" class="dropdown-item" >Log IN</button>
+                        </form></li>
+                        <li><form method="post" action="controller">
+                            <input type="hidden" name="command" value="updateUser"/>
+                            <button type="submit" class="dropdown-item" >Settings</button>
+                        </form></li>
+                        <li><form method="post" action="controller">
+                            <input type="hidden" name="command" value="logOut"/>
+                            <button type="submit" class="dropdown-item" >Log OUT</button>
+                        </form></li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="navbar-nav me-2">
+                <!-- Icon dropdown -->
+                <li class="nav-item dropdown">
+                    <a
+                            class="nav-link dropdown-toggle"
+                            href="#"
+                            id="navbarDropdown"
+                            role="button"
+                            data-mdb-toggle="dropdown"
+                            aria-expanded="false"
+                    >
+                        <i class="united kingdom flag m-0"></i>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li>
+                            <a class="dropdown-item" href="controller/en"
+                            ><i class="united kingdom flag"></i>EN
+                                <i class="fa fa-check text-success ms-2"></i
+                                ></a>
+                        </li>
+                        <li><hr class="dropdown-divider" /></li>
+                        <li>
+                            <a class="dropdown-item" href="ua"><i class="ukraine flag"></i>UA</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+    <!-- Navbar -->
+
+    <!-- Background image -->
+    <div
+            class="p-5 text-center bg-image"
+            style="
+      background-image: url('https://mdbootstrap.com/img/new/slides/041.jpg');
+      height: 400px;
+    "
+    >
+        <div class="mask" style="background-color: rgba(0, 0, 0, 0.6)">
+            <div class="d-flex justify-content-center align-items-center h-100">
+                <div class="text-white">
+                    <h1 class="mb-3" style="color: #faebd7">CONFERENCES 4U</h1>
+                    <h4 class="mb-3"><c:out value="${user.name}" default="Log ON to visit Events" /></h4>
+
+                    <c:if test="${empty user}">
+                        <form method="post" action="controller">
+                            <input type="hidden" name="command" value="register">
+                            <button type="submit" class="btn btn-outline-light btn-lg">Register!</button>
+                        </form>
+                    </c:if>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Background image -->
+</header>
