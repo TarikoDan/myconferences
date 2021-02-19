@@ -1,96 +1,184 @@
-<%@ include file="/WEB-INF/jspf/page.jspf"%>
+<%@ include file="/WEB-INF/jspf/page.jspf" %>
+
 <html>
 
-<c:set var="title" value="conferenses" />
-<%@ include file="/WEB-INF/jspf/head.jspf" %>
+<c:set var="title" value="Home" />
+<c:set var="background" value="'https://mdbootstrap.com/img/new/slides/040.jpg'" />
+<c:set var="height" value="200px" />
 
-
+<%@ include file="/WEB-INF/jspf/head.jspf"%>
 <body>
 <%@ include file="/WEB-INF/jspf/header.jspf" %>
-<%--<jsp:include page="/WEB-INF/jspf/header.jspf" />--%>
 
-<main>
-    <%--    <c:out value="<%= new java.util.Date() %>"/>--%>
-    <c:set var="now" value="<%= java.time.LocalDate.now() %>"/>
-    <c:out value="Today is: ${now}"/>
-    <%--    <jsp:useBean id="now" class="java.util.Date"  />--%>
-    <%--    <fmt:formatDate value="${now}"  pattern="yyyy-MM-dd"/>--%>
+<c:set var="now" value="<%= java.time.LocalDate.now() %>"/>
+<c:out value="Today is: ${now}"/>
+<c:set var="events" value="${applicationScope.initEvents}"/>
+<c:set var="event1" value="${events[0]}"/>
+<c:set var="event2" value="${events[1]}"/>
+<c:set var="event3" value="${events[2]}"/>
+<c:set var="registered" value="${sessionScope.registered}"/>
 
-    <h1>HOME Page</h1>
-    <%--    <c:set var="events" value="${applicationScope.get('init')}"/>--%>
-    <c:set var="events" value="${applicationScope.initEvents}"/>
-    <c:set var="registered" value="${sessionScope.registered}"/>
+<h1>HOME Page</h1>
 
-    <div class="container-md col-md-5 mx-auto text-center">
-        <!-- Modal -->
+<div class="container-md col-md-5 mx-auto text-center">
+    <!-- Modal -->
+    <c:if test="${not empty registered}">
+    <!-- Button trigger modal -->
+    <button
+            type="button"
+            class="btn btn-success m-5"
+            data-mdb-toggle="modal"
+            data-mdb-target="#staticBackdrop"
+    >Registration result
+    </button>
+    </c:if>
+</div>
 
-        <c:if test="${not empty registered}">
-            <!-- Button trigger modal -->
-            <button
-                    type="button"
-                    class="btn btn-success m-5"
-                    data-mdb-toggle="modal"
-                    data-mdb-target="#staticBackdrop"
-            >Registration result
-            </button>
+<!-- Carousel wrapper -->
+<div
+        id="carouselBasicExample"
+        class="carousel slide carousel-fade"
+        data-mdb-ride="carousel"
+>
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+        <li data-mdb-target="#carouselBasicExample" data-mdb-slide-to="0" class="active"></li>
+        <li data-mdb-target="#carouselBasicExample" data-mdb-slide-to="1"></li>
+        <li data-mdb-target="#carouselBasicExample" data-mdb-slide-to="2"></li>
+    </ol>
 
-        </c:if>
-
-        <c:forEach items="${events}" var="event">
-            <h2>
-                <c:out value="${event.title}"/> -- <c:out value="${event.date}"/>
+    <!-- Inner -->
+    <div class="carousel-inner">
+        <!-- Single item -->
+        <div class="carousel-item active">
+            <img
+                    src="https://mdbootstrap.com/img/Photos/Slides/img%20(15).jpg"
+                    class="d-block w-100"
+                    alt="..."
+            />
+            <div class="carousel-caption d-none d-md-block">
+                <h5>First slide label</h5>
+                <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+                <h2>
+                    <c:out value="${event1.title}"/> -- <c:out value="${event1.date}"/>
+                </h2>
                 <form method="post" action="controller">
-                    <input type="hidden" name="command" value="registerUserForEvent">
-                    <input type="hidden" name="eventId" value="${event.id}">
+                    <input type="hidden" name="command" value="eventDetails">
+                    <input type="hidden" name="eventId" value="${event1.id}">
                     <input type="hidden" name="userId" value="${user.id}">
-                    <button type="submit" class="btn btn-dark">apply for visiting</button>
+                    <button type="submit" class="btn btn-outline-light btn-lg">event Details...</button>
                 </form>
 
-            </h2>
-            <br>
-        </c:forEach>
+            </div>
+        </div>
 
-    </div>
+        <!-- Single item -->
+        <div class="carousel-item">
+            <img
+                    src="https://mdbootstrap.com/img/Photos/Slides/img%20(22).jpg"
+                    class="d-block w-100"
+                    alt="..."
+            />
+            <div class="carousel-caption d-none d-md-block">
+                <h5>Second slide label</h5>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <h2>
+                    <c:out value="${event2.title}"/> -- <c:out value="${event2.date}"/>
+                </h2>
+                <form method="post" action="controller">
+                    <input type="hidden" name="command" value="eventDetails">
+                    <input type="hidden" name="eventId" value="${event2.id}">
+                    <input type="hidden" name="userId" value="${user.id}">
+                    <button type="submit" class="btn btn-outline-light btn-lg">event Details...</button>
+                </form>
 
+            </div>
+        </div>
 
-    <div
-            class="modal fade"
-            id="staticBackdrop"
-            data-mdb-backdrop="static"
-            data-mdb-keyboard="false"
-            tabindex="-1"
-            aria-labelledby="staticBackdropLabel"
-            aria-hidden="true"
-    >
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
-                    <button
-                            type="button"
-                            class="btn-close"
-                            data-mdb-dismiss="modal"
-                            aria-label="Close"
-                    ></button>
-                </div>
-                <div class="modal-body">...
-                    Registration success!
-                    Name:<c:out value="${registered.name}"/>
-                    Email:<c:out value="${registered.email}"/>
+        <!-- Single item -->
+        <div class="carousel-item">
+            <img
+                    src="https://mdbootstrap.com/img/Photos/Slides/img%20(23).jpg"
+                    class="d-block w-100"
+                    alt="..."
+            />
+            <div class="carousel-caption d-none d-md-block">
+                <h5>Third slide label</h5>
+                <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
+                <h2>
+                    <c:out value="${event3.title}"/> -- <c:out value="${event3.date}"/>
+                </h2>
+                <form method="post" action="controller">
+                    <input type="hidden" name="command" value="eventDetails">
+                    <input type="hidden" name="eventId" value="${event3.id}">
+                    <input type="hidden" name="userId" value="${user.id}">
+                    <button type="submit" class="btn btn-outline-light btn-lg">event Details...</button>
+                </form>
 
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary"
-                            data-mdb-dismiss="modal"
-                            onclick="${sessionScope.remove("registered")}"
-                    > Close
-                    </button>
-                </div>
             </div>
         </div>
     </div>
+    <!-- Inner -->
 
-</main>
+    <!-- Controls -->
+    <a
+            class="carousel-control-prev"
+            href="#carouselBasicExample"
+            role="button"
+            data-mdb-slide="prev"
+    >
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </a>
+    <a
+            class="carousel-control-next"
+            href="#carouselBasicExample"
+            role="button"
+            data-mdb-slide="next"
+    >
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </a>
+</div>
+<!-- Carousel wrapper -->
+
+<!-- Registration result -->
+<div
+        class="modal fade"
+        id="staticBackdrop"
+        data-mdb-backdrop="static"
+        data-mdb-keyboard="false"
+        tabindex="-1"
+        aria-labelledby="staticBackdropLabel"
+        aria-hidden="true"
+>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                <button
+                        type="button"
+                        class="btn-close"
+                        data-mdb-dismiss="modal"
+                        aria-label="Close"
+                ></button>
+            </div>
+            <div class="modal-body">...
+                Registration success!
+                Name:<c:out value="${registered.name}"/>
+                Email:<c:out value="${registered.email}"/>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary"
+                        data-mdb-dismiss="modal"
+                        onclick="${sessionScope.remove("registered")}"
+                > Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <%@ include file="/WEB-INF/jspf/footer.jspf"%>
 <%@ include file="/WEB-INF/jspf/script.jspf"%>

@@ -4,11 +4,14 @@
 <html>
 
 <c:set var="title" value="Error" scope="page" />
+<c:set var="background" value="${pageContext.request.contextPath}/images/default.jpg" />
+<c:set var="height" value="200px" />
+
 <%@ include file="/WEB-INF/jspf/head.jspf" %>
 
 <body>
 
-<table class="container-md-3 mx-auto">
+<table class="container-md col-6 mx-auto mt-5">
 
     <%-- HEADER --%>
     <%@ include file="/WEB-INF/jspf/header.jspf"%>
@@ -16,61 +19,46 @@
 
     <tr >
         <td >
-            <%-- CONTENT --%>
 
-            <h2 >
-                The following error occurred
-            </h2>
+            <h2 class="text-danger bg-light">The following error occurred</h2>
 
-            <%-- this way we get the error information (error 404)--%>
-            <c:set var="code" value="${requestScope.get('javax.servlet.error.status_code')}"/>
-            <c:set var="message" value="${requestScope['javax.servlet.error.message']}"/>
+            <c:set var="errorMessage" value="${requestScope.errorMessage}"/>
+            <c:set var="errorCode" value="${requestScope.errorCode}"/>
 
-            <%-- this way we get the exception --%>
-            <c:set var="exception" value="${requestScope['javax.servlet.error.exception']}"/>
-
-            <c:if test="${not empty code}">
-                <h3>Error code: ${code}</h3>
-            </c:if>
-
-            <c:if test="${not empty message}">
-                <h3>Message: ${message}</h3>
-            </c:if>
+<%--            <c:if test="${not empty code}">--%>
+<%--                <h3>Error code: ${code}</h3>--%>
+<%--            </c:if>--%>
 
             <%-- if get this page using forward --%>
             <c:if test="${not empty errorMessage}">
-                <h3>Error message: ${errorMessage}</h3>
+                <h4 class="text-light bg-danger">Error message: ${errorMessage}</h4>
+            </c:if>
+            <c:if test="${not empty errorCode}">
+                <h4 class="text-light bg-danger">Error Code: ${errorCode}</h4>
+            </c:if>
+            <c:if test="${empty errorMessage}">
+                <h3 class="text-danger">Error message: Server side ERROR occurred, please reload the command</h3>
             </c:if>
 
-            <%-- this way we print exception stack trace --%>
-            <c:if test="${not empty exception}">
-                <hr/>
-                <h3>Stack trace:</h3>
-                <c:forEach var="stackTraceElement" items="${exception.stackTrace}">
-                    ${stackTraceElement}
-                </c:forEach>
-            </c:if>
-
-            <form action="controller" method="post">
-                <input type="hidden" name="command" value="loginPage"/>
-                <button class="btn btn-warning btn-block mb-4">
-                    BACK to LogIN page
-                </button>
-            </form>
-
-            <a class="btn btn-success btn-block mb-4"
-                href="${pageContext.request.contextPath}">
-                BACK to home page
-            </a>
-
-
-
-            <%-- CONTENT --%>
         </td>
     </tr>
-
-
 </table>
+
+<div class="text-center mt-5 col-md-5 mx-auto">
+    <form action="controller" method="post">
+        <input type="hidden" name="command" value="loginPage"/>
+        <button class="btn btn-warning btn-block mb-4">
+            BACK to LogIN page
+        </button>
+    </form>
+
+    <a class="btn btn-success btn-block mb-4"
+       href="${pageContext.request.contextPath}">
+        BACK to home page
+    </a>
+
+</div>
+
     <%@ include file="/WEB-INF/jspf/footer.jspf"%>
 </body>
 </html>

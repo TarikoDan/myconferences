@@ -9,9 +9,10 @@ public interface ReportDAO {
   boolean createNewReport(Report report);
   List<Report> findAllReports();
   List<Report> findReportsWithoutSpeakers();
+  List<Report> findAllReportsOnEvent(int eventId);
   Report findReportById(int reportId);
   Report findReportByTopic(String reportTopic);
-  Report findReportBySpeaker(User reportSpeaker);
+  List<Report> findAllReportsBySpeaker(User reportSpeaker);
   void proposeSpeakerForReport(int speakerId, int reportId);
   void assignSpeakerToReport(int speakerId, int reportId);
   boolean updateReportById(int reportId, Report newReport);

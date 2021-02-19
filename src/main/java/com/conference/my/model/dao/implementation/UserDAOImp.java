@@ -8,10 +8,7 @@ import com.conference.my.model.entity.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -79,8 +76,27 @@ public class UserDAOImp extends GenericDAO<User> implements UserDAO {
   }
 
   @Override
+  public User findSpeakerOfReport(int reportId) {
+    final String FIND_SPEAKER_OF_REPORT =
+        "SELECT * FROM user WHERE id = (SELECT speaker FROM report WHERE id = ?)";
+    try {
+      return findByField(reportId, FIND_SPEAKER_OF_REPORT, connection);
+    } catch (SQLException ex) {
+      LOGGER.error("Speaker of Report: {} wasn't found", reportId, ex);
+      throw new NoSuchElementException("Speaker wasn't found");
+    }
+  }
+
+  @Override
   public boolean updateUserById(int userId, User newUser) {
-    return false;
+    final String VISIT_EVENT_BY_USER =
+        "UPDATE user SET name = ? , email = ? , password = ? , role_id = ? WHERE id = ?";
+    try (PreparedStatement prst = connection.prepareStatement(VISIT_EVENT_BY_USER)) {
+      return update(prst, newUser, userId) > 0;
+    } catch (SQLException ex) {
+      LOGGER.error("User with Id: {} wasn't updated", userId, ex);
+      throw new NoSuchElementException("User wasn't updated");
+    }
   }
 
   @Override
@@ -101,6 +117,20 @@ public class UserDAOImp extends GenericDAO<User> implements UserDAO {
   }
 
   @Override
+  public List<User> findAllSpeakersOnEvent(int eventId) {
+    final String FIND_ALL_SPEAKERS_ON_EVENT =
+        "SELECT * FROM user WHERE role_id = 2 AND id IN " +
+            "(SELECT speaker FROM report JOIN report_event re " +
+            "ON report.id = re.report_id AND re.event_id = 9)";
+    try {
+      return findAllWithConditionssssssss(FIND_ALL_SPEAKERS_ON_EVENT, connection, eventId);
+    } catch (SQLException ex) {
+      LOGGER.error("Searching Speaker Error", ex);
+      throw new NoSuchElementException("Data wasn't found");
+    }
+  }
+
+  @Override
   public void registerVisitorForEvent(int userId, int eventId) {
     final String REGISTER_USER_FOR_EVENT =
         "INSERT INTO visitor_event (visitor_id, event_id) VALUES (?, ?)";
@@ -113,7 +143,7 @@ public class UserDAOImp extends GenericDAO<User> implements UserDAO {
 
 
   @Override
-  public void visitEventByUser(int userId, int eventId) {
+  public void visitEventByUser(int eventId, int userId) {
     final String VISIT_EVENT_BY_USER =
         "UPDATE visitor_event SET is_visited = true WHERE visitor_id = ? AND event_id = ?";
     try {
@@ -167,6 +197,19 @@ public class UserDAOImp extends GenericDAO<User> implements UserDAO {
       default: role = null;
     }
     return role;
+  }
+
+  private int update(PreparedStatement prst, User newUser, int id) throws SQLException {
+    int res;
+    int k = 1;
+    setInstance(prst,
+        newUser.getName(),
+        newUser.getEmail(),
+        newUser.getPassword(),
+        newUser.getRole(),
+        id);
+    res = prst.executeUpdate();
+    return res;
   }
 
 }

@@ -14,6 +14,8 @@ public interface EventDAO {
   List<Event> findAllEvents();
   List<Event> findAllEventsByDate(LocalDate fromDate, LocalDate toDate);
   List<Event> findAllEventsBySpeaker(User speaker);
+  List<Event> findAllEventsWhichVisitorRegistered(int visitorId);
+  List<Event> findAllEventsWhichVisitedByVisitor(int visitorId);
   List<Event> getPastEvents();
   List<Event> getFutureEvents();
   List<Event> getSortedEventsByDate();

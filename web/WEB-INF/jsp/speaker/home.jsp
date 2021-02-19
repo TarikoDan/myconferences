@@ -2,24 +2,20 @@
 <html>
 
 <c:set var="title" value="conferenses" />
-<c:set var="background" value="'https://mdbootstrap.com/img/new/slides/041.jpg'" />
-<c:set var="height" value="400px" />
-
+<c:set var="background" value="'https://mdbootstrap.com/img/new/slides/042.jpg'" />
+<c:set var="height" value="300px" />
 <%@ include file="/WEB-INF/jspf/head.jspf" %>
+
 
 <body>
 <%@ include file="/WEB-INF/jspf/header.jspf" %>
-<%--<jsp:include page="/WEB-INF/jspf/header.jspf" />--%>
 
 <main>
-    <%--    <c:out value="<%= new java.util.Date() %>"/>--%>
     <c:set var="now" value="<%= java.time.LocalDate.now() %>"/>
     <c:out value="Today is: ${now}"/>
-    <%--    <jsp:useBean id="now" class="java.util.Date"  />--%>
-    <%--    <fmt:formatDate value="${now}"  pattern="yyyy-MM-dd"/>--%>
 
-    <h1>HOME Page</h1>
-    <%--    <c:set var="events" value="${applicationScope.get('init')}"/>--%>
+    <h1>SPEAKER HOME Page</h1>
+
     <c:set var="events" value="${applicationScope.initEvents}"/>
     <c:set var="registered" value="${sessionScope.registered}"/>
 

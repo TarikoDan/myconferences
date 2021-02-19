@@ -90,11 +90,37 @@ public class EventDAOImp extends GenericDAO<Event> implements EventDAO {
   public List<Event> findAllEventsBySpeaker(User speaker) {
     final String FIND_ALL_EVENTS_BY_SPEAKER =
         "SELECT * FROM event WHERE id IN" +
-        "(SELECT event_id FROM report_event re JOIN report r ON r.speaker = ?)";
+        "(SELECT event_id FROM report_event re JOIN report r ON re.report_id = r.id AND r.speaker = ?)";
     try {
       return findAllWithCondition(speaker.getId(), FIND_ALL_EVENTS_BY_SPEAKER, connection);
     } catch (SQLException ex) {
       LOGGER.error("Event involving Speaker with Id: {} wasn't found", speaker.getId(), ex);
+      throw new NoSuchElementException("Event wasn't found");
+    }
+  }
+
+  @Override
+  public List<Event> findAllEventsWhichVisitorRegistered(int visitorId) {
+    final String FIND_ALL_EVENTS_BY_REGISTERED_VISITOR =
+        "SELECT * FROM event WHERE id IN" +
+            "(SELECT event_id FROM visitor_event WHERE visitor_id = ?)";
+    try {
+      return findAllWithConditionssssssss(FIND_ALL_EVENTS_BY_REGISTERED_VISITOR, connection, visitorId);
+    } catch (SQLException ex) {
+      LOGGER.error("Events with registered Visitor (Id: {}) wasn't found", visitorId, ex);
+      throw new NoSuchElementException("Event wasn't found");
+    }
+  }
+
+  @Override
+  public List<Event> findAllEventsWhichVisitedByVisitor(int visitorId) {
+    final String FIND_ALL_VISITED_EVENTS_BY_VISITOR =
+        "SELECT * FROM event WHERE id IN" +
+            "(SELECT event_id FROM visitor_event WHERE visitor_id = ? AND is_visited = true)";
+    try {
+      return findAllWithConditionssssssss(FIND_ALL_VISITED_EVENTS_BY_VISITOR, connection, visitorId);
+    } catch (SQLException ex) {
+      LOGGER.error("Events with visited by Visitor (Id: {}) wasn't found", visitorId, ex);
       throw new NoSuchElementException("Event wasn't found");
     }
   }

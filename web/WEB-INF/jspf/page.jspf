@@ -3,7 +3,7 @@ Page directive. Sets the content type and encoding.
 Encoding of the response: UTF-8
 Encoding of this JSP page: UTF-8 
 ===========================================================================--%> 
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <%--<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>--%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>

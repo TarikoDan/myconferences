@@ -4,6 +4,7 @@ import com.conference.my.model.dao.implementation.EventDAOImp;
 import com.conference.my.model.dao.implementation.LocationDAOImp;
 import com.conference.my.model.dao.implementation.ReportDAOImp;
 import com.conference.my.model.dao.implementation.UserDAOImp;
+import com.conference.my.model.dao.util.ConnectionManager;
 import com.conference.my.model.dao.util.DBCPManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

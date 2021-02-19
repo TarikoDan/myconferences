@@ -3,13 +3,16 @@
 <html>
 
 <c:set var="title" value="Login" />
+<c:set var="background" value="${pageContext.request.contextPath}/images/default.jpg" />
+<c:set var="height" value="200px" />
+
 <%@ include file="/WEB-INF/jspf/head.jspf" %>
 
 <body>
 <%@ include file="/WEB-INF/jspf/header.jspf" %>
 
 <div class="container col-md-5 mx-auto">
-    <form action="controller" method="post">
+    <form action="controller" method="post" class="mt-3">
 
         <input type="hidden" name="command" value="login"/>
 

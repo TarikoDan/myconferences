@@ -62,6 +62,18 @@ public class ReportDAOImp extends GenericDAO<Report> implements ReportDAO {
   }
 
   @Override
+  public List<Report> findAllReportsOnEvent(int eventId) {
+    final String FIND_ALL_REPORTS_ON_EVENT =
+        "SELECT * FROM report WHERE id IN (SELECT report_id FROM report_event WHERE event_id = ?)";
+    try {
+      return findAllWithConditionssssssss(FIND_ALL_REPORTS_ON_EVENT, connection, eventId);
+    } catch (SQLException ex) {
+      LOGGER.error("Reports on Event with id: {} wasn't found", eventId, ex);
+      throw new NoSuchElementException("Reports weren't found");
+    }
+  }
+
+  @Override
   public Report findReportById(int reportId) {
     final String FIND_REPORT_BY_ID =
         "SELECT * FROM report WHERE id = ?";
@@ -88,17 +100,16 @@ public class ReportDAOImp extends GenericDAO<Report> implements ReportDAO {
   }
 
   @Override
-  public Report findReportBySpeaker(User speaker) {
+  public List<Report> findAllReportsBySpeaker(User speaker) {
     final String FIND_REPORT_BY_SPEAKER =
         "SELECT * FROM report WHERE speaker = ?";
     final int speakerId = speaker.getId();
-    Report res = null;
     try {
-      res = findByField(speakerId, FIND_REPORT_BY_SPEAKER, connection);
+      return findAllWithConditionssssssss(FIND_REPORT_BY_SPEAKER, connection, speakerId);
     } catch (SQLException ex) {
-      LOGGER.error("Report with speakerID: {} wasn't found", speakerId, ex);
+      LOGGER.error("Reports with speakerID: {} wasn't found", speakerId, ex);
+      throw new NoSuchElementException("Reports weren't found");
     }
-    return res;
   }
 
   @Override

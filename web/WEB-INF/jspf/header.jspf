@@ -25,23 +25,35 @@ Header (top area).
 
             <div class="collapse navbar-collapse justify-content-center" id="navbarExample01">
                 <ul class="navbar-nav mb-2 mb-lg-0">
+
                     <li class="nav-item ">
-                        <a class="nav-link active" aria-current="page" href="${pageContext.request.contextPath}">Home</a>
-                    </li>
-                    <li class="nav-item">
-<%--                        <a class="nav-link" href="#" >Events</a>--%>
-                        <a class="nav-link">
-                        <form method="post" action="controller">
-                            <input type="hidden" name="command" value="navEvents"/>
-                                <button type="submit" class="btn btn-dark">Events</button>
-                        </form>
+                        <a class="nav-link active" aria-current="page" href="${pageContext.request.contextPath}">
+                            <button type="submit" class="btn btn-dark">Home</button>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Speakers</a>
+                    <li class="nav-item ">
+                        <form method="post" action="controller" class="my-0 p-2">
+                            <input type="hidden" name="command" value="navEvents"/>
+                            <button type="submit" class="btn btn-dark my-auto">Events</button>
+                        </form>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">About</a>
+                    <li class="nav-item ">
+                        <form method="post" action="controller" class="my-0 p-2">
+                            <input type="hidden" name="command" value="navSpeakers"/>
+                            <button type="submit" class="btn btn-dark my-auto">Speakers</button>
+                        </form>
+                    </li>
+                    <li class="nav-item ">
+                        <form method="post" action="controller" class="my-0 p-2">
+                            <input type="hidden" name="command" value="navReports"/>
+                            <button type="submit" class="btn btn-dark my-auto">Reports</button>
+                        </form>
+                    </li>
+                    <li class="nav-item ">
+                        <form method="post" action="controller" class="my-0 p-2">
+                            <input type="hidden" name="command" value="navReports"/>
+                            <button type="submit" class="btn btn-dark my-auto">About</button>
+                        </form>
                     </li>
                 </ul>
             </div>
@@ -86,7 +98,7 @@ Header (top area).
                             <button type="submit" class="dropdown-item" >Log IN</button>
                         </form></li>
                         <li><form method="post" action="controller">
-                            <input type="hidden" name="command" value="updateUser"/>
+                            <input type="hidden" name="command" value="settingsUser"/>
                             <button type="submit" class="dropdown-item" >Settings</button>
                         </form></li>
                         <li><form method="post" action="controller">
@@ -129,17 +141,16 @@ Header (top area).
     <!-- Navbar -->
 
     <!-- Background image -->
-    <div
-            class="p-5 text-center bg-image"
-            style="
-      background-image: url('https://mdbootstrap.com/img/new/slides/041.jpg');
-      height: 400px;
-    "
-    >
+    <div class="p-5 mt-5 text-center bg-image"
+        style="
+          /*background-image: url('https://mdbootstrap.com/img/new/slides/041.jpg');*/
+          background-image: url(${background});
+          height: ${height};
+        ">
         <div class="mask" style="background-color: rgba(0, 0, 0, 0.6)">
             <div class="d-flex justify-content-center align-items-center h-100">
                 <div class="text-white">
-                    <h1 class="mb-3" style="color: #faebd7">CONFERENCES 4U</h1>
+                    <h2 class="mb-3" style="color: #faebd7">CONFERENCES 4U</h2>
                     <h4 class="mb-3"><c:out value="${user.name}" default="Log ON to visit Events" /></h4>
 
                     <c:if test="${empty user}">

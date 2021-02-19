@@ -12,7 +12,7 @@ public class Location extends Entity{
   private String building;
   private String suite;
 
-  private Location() {
+  public Location() {
   }
 
   public int getZipCode() {

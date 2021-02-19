@@ -2,6 +2,7 @@ package com.conference.my.model.dao;
 
 import com.conference.my.model.dao.util.Converter;
 import com.conference.my.model.dao.util.EntityTransformer;
+import com.conference.my.model.entity.Role;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -88,18 +89,18 @@ public abstract class GenericDAO<E> {
   }
 
   @SafeVarargs
-  private <V> void setInstance(PreparedStatement prst, V... fields) throws SQLException {
+  protected final <V> void setInstance(PreparedStatement prst, V... fields) throws SQLException {
     for (int i = 1; i <= fields.length; i++) {
       V field = fields[i-1];
       if (field instanceof Integer)
         prst.setInt(i, (Integer) field);
       if (field instanceof String)
         prst.setString(i, (String) field);
-      if (field instanceof LocalDate) {
+      if (field instanceof LocalDate)
         prst.setDate(i, Date.valueOf((LocalDate) field));
-      }
+      if (field instanceof Role)
+        prst.setInt(i, ((Role) field).getRoleID());
     }
-
   }
 
   public<T,V> T convertNullable(V value, Converter<T, V> converter) {

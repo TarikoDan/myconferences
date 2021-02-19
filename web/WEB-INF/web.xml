@@ -15,6 +15,24 @@
         <res-type>javax.sql.DataSource</res-type>
         <res-auth>Container</res-auth>
     </resource-ref>
+    <!--============================================================
+	Encoding support filter
+=============================================================-->
+    <filter>
+        <filter-name>EncodingFilter</filter-name>
+        <filter-class>com.conference.my.controller.filter.EncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>EncodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+        <servlet-name>MainController</servlet-name>
+    </filter-mapping>
+
 
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
@@ -28,6 +46,16 @@
     <!--        <servlet-name>MainController</servlet-name>-->
     <!--        <url-pattern>/controller/*</url-pattern>-->
     <!--    </servlet-mapping>-->
+
+
+    <filter>
+        <filter-name>AccessFilter</filter-name>
+        <filter-class>com.conference.my.controller.filter.CommandAccessFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AccessFilter</filter-name>
+        <servlet-name>MainController</servlet-name>
+    </filter-mapping>
 
     <listener>
         <listener-class>com.conference.my.controller.listener.ContextListener</listener-class>

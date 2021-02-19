@@ -18,8 +18,8 @@ public class Controller extends HttpServlet {
   private static final Logger LOGGER = LogManager.getLogger(Controller.class);
   private static final CommandContainer commandContainer = CommandContainer.getContainer();
   private static final long serialVersionUID = -6726429036252678102L;
-  public static final String REDIRECT = "redirect";
-  public static final String HOME = "index.jsp";
+  public static final String REDIRECT = Pages.REDIRECT;
+  public static final String HOME = Pages.HOME;
 
 
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -33,6 +33,8 @@ public class Controller extends HttpServlet {
   @Override
   protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     LOGGER.debug("Controller starts");
+
+    request.setCharacterEncoding("utf-8");
 
     String commandName = request.getParameter("command");
     System.out.println("command --> " + commandName);

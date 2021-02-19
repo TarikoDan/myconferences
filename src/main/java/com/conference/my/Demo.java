@@ -4,6 +4,8 @@ import com.conference.my.model.dao.*;
 import com.conference.my.model.entity.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Demo {
@@ -16,9 +18,9 @@ public class Demo {
 //    user.setRole(Role.valueOf("MODERATOR"));
 
     final User userTest = new User();
-    userTest.setName("Speaker1");
-    userTest.setEmail("Speaker1@mail.com");
-    userTest.setPassword("Speaker1");
+    userTest.setName("Volo");
+    userTest.setEmail("volodym1@mail.com");
+    userTest.setPassword("vvv");
     userTest.setRole(Role.SPEAKER);
 //
     final UserDAO userDAO = DAOFactory.getUserDAO();
@@ -40,8 +42,8 @@ public class Demo {
 //    final User speaker2 = userDAO.findUserById(2);
     final User speaker2 = new User();
     speaker2.setId(22);
-    final Report reportBySpeaker = reportDAO.findReportBySpeaker(speaker2);
-    System.out.println(reportBySpeaker);
+    final List<Report> reportsBySpeaker = reportDAO.findAllReportsBySpeaker(speaker2);
+    System.out.println(reportsBySpeaker);
     final Report reportTest = new Report();
     reportTest.setTopic("newReport5");
 //    final User speaker4 = new User();
@@ -94,8 +96,17 @@ public class Demo {
     System.out.println(userDAO.findUserByEmail("taras@gmail.com"));
 
     eventDAO.getFutureEvents().forEach(System.out::println);
+    final Event eventById = eventDAO.findEventById(1);
+    System.out.println(eventById.hasVisitor(3));
+    eventById.addVisitor(122);
+    System.out.println(eventById.hasVisitor(122));
+    final List<Event> futureEvents = eventDAO.getFutureEvents();
+    final Event eventById9 = eventDAO.findEventById(9);
+    System.out.println(eventById9);
+    System.out.println(futureEvents.stream().anyMatch(event -> event.getId() == eventById9.getId()));
 
   }
+  
 
 }
 

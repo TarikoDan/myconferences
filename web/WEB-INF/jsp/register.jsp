@@ -3,6 +3,9 @@
 <html>
 
 <c:set var="title" value="register" />
+<c:set var="background" value="${pageContext.request.contextPath}/images/default.jpg" />
+<c:set var="height" value="200px" />
+
 <%@ include file="/WEB-INF/jspf/head.jspf" %>
 
 <body>
@@ -23,7 +26,7 @@
             </div>
             <div class="col">
                 <div class="form-outline">
-                    <input name="surName" type="text" id="form3Example2" class="form-control" />
+                    <input name="lastname" type="text" id="form3Example2" class="form-control" />
                     <label class="form-label" for="form3Example2">Last name</label>
                 </div>
             </div>

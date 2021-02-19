@@ -109,7 +109,7 @@ INSERT INTO event (id, date, title) VALUES (DEFAULT, '2021-01-31', 'event');
 ##########################################
 # TestQueries
 INSERT INTO visitor_event (visitor_id, event_id) VALUES (3, 1);
-UPDATE visitor_event SET is_visited = true WHERE visitor_id = 3 AND event_id = 1;
+UPDATE visitor_event SET is_visited = TRUE WHERE visitor_id = 39 AND event_id = 9;
 
 SELECT * FROM report WHERE speaker IS NULL;
 UPDATE report SET speaker = ? WHERE report.id = ?;
@@ -131,7 +131,7 @@ SELECT * FROM event WHERE id IN
     (SELECT id FROM report WHERE speaker = ?));
 
 SELECT * FROM event WHERE id IN
-    (SELECT event_id FROM report_event re JOIN report r ON r.speaker = ?);
+    (SELECT event_id FROM report_event re JOIN report r ON re.report_id = r.id AND r.speaker = ?);
 
 SELECT e.id id, e.title title, e.date date, e.location_id location_id
     FROM event e JOIN report_event re ON e.id = re.event_id
@@ -142,6 +142,17 @@ SELECT * FROM event WHERE date BETWEEN ? AND ?;
 
 select * from event where date BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL 100 YEAR);
 
+SELECT * FROM event WHERE id IN
+            (SELECT event_id FROM visitor_event WHERE visitor_id = 39 AND is_visited = TRUE);
+
+SELECT * FROM report WHERE id IN (SELECT report_id FROM report_event WHERE event_id = 4);
+
+SELECT * FROM user WHERE id = (SELECT speaker FROM report WHERE id = 1);
+
+SELECT * FROM user WHERE role_id = 2 AND id IN (SELECT speaker FROM report JOIN report_event re ON report.id = re.report_id AND re.event_id = 9);
+
+UPDATE user SET name = ? , email = ? , password = ? , role_id = ? WHERE id = ? ;
+UPDATE user SET name = '3' , email = 'aa@33.com' , password = '3' , role_id = 2 WHERE id = 41 ;
 
 
 

@@ -13,19 +13,21 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-public class NewUserCommand implements Command {
-  private static final Logger LOGGER = LogManager.getLogger(NewUserCommand.class);
+public class UpdateUserCommand implements Command {
+  private static final Logger LOGGER = LogManager.getLogger(UpdateUserCommand.class);
 
   @Override
   public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
     final HttpSession session = request.getSession();
-    final String name = request.getParameter("name");
-    System.out.println("name = > " + name);
-    final String email = request.getParameter("email");
-    System.out.println("email = > " + email);
-    final String password = request.getParameter("password");
-    System.out.println("password = > " + password);
+    User oldUser = (User) session.getAttribute("user");
+    Role oldUserRole = (Role) session.getAttribute("userRole");
 
+    final String name = request.getParameter("name");
+    final String lastname = request.getParameter("lastname");
+    final String email = request.getParameter("email");
+    final String password = request.getParameter("password");
+    final String speaker = request.getParameter("speaker");
+    System.out.println(speaker);
 
     String result = Pages.ERROR_PAGE;
     String message;
@@ -38,16 +40,19 @@ public class NewUserCommand implements Command {
     }
 
     if (password == null || password.isEmpty()) {
-
       message = "Password cannot be empty";
       request.setAttribute("errorMessage", message);
       LOGGER.error("errorMessage --> " + message);
       return result;
     }
-    final User user = new User(name, email, password);
-    user.setRole(Role.VISITOR);
 
-    final boolean success = DAOFactory.getUserDAO().createNewUser(user);
+    final User user = new User(name, email, password);
+    user.setLastname(lastname);
+    if (speaker == null || speaker.equals("speaker"))     user.setRole(Role.SPEAKER);
+    if (speaker != null && !speaker.equals("speaker"))     user.setRole(Role.VISITOR);
+    if (oldUserRole == Role.MODERATOR)     user.setRole(Role.MODERATOR);
+
+    final boolean success = DAOFactory.getUserDAO().updateUserById( oldUser.getId(), user);
     if (!success) {
       message = "Registration failed";
       request.setAttribute("errorMessage", message);
@@ -58,17 +63,12 @@ public class NewUserCommand implements Command {
     System.out.println(user);
     LOGGER.trace("Create in DB: newUser --> " + user);
 
-    final Role userRole = user.getRole();
-    System.out.println("userRole --> " + userRole);
-    LOGGER.trace("userRole --> " + userRole);
-    session.setAttribute("registered", user);
+    session.removeAttribute("user");
+    session.setAttribute("updatedUser", user);
 
-
-    if (userRole == Role.VISITOR)
-      result = Pages.REDIRECT;
+    result = Pages.REDIRECT;
 
     LOGGER.debug("Command finished");
     return result;
-
   }
 }
