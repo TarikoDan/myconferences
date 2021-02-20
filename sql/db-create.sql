@@ -29,7 +29,7 @@ CREATE TABLE user (
 
 CREATE TABLE report (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    topic VARCHAR(100) NOT NULL,
+    topic VARCHAR(255) NOT NULL,
     speaker INT
 );
 
@@ -47,7 +47,7 @@ CREATE TABLE location (
 
 CREATE TABLE event (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    title VARCHAR(50) NOT NULL,
+    title VARCHAR(255) NOT NULL,
     date DATE NOT NULL,
     location_id INT,
     CONSTRAINT fk_event_Location_id FOREIGN KEY (location_id)

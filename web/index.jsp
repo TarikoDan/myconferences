@@ -18,8 +18,6 @@
 <c:set var="event3" value="${events[2]}"/>
 <c:set var="registered" value="${sessionScope.registered}"/>
 
-<h1>HOME Page</h1>
-
 <div class="container-md col-md-5 mx-auto text-center">
     <!-- Modal -->
     <c:if test="${not empty registered}">
@@ -57,8 +55,8 @@
                     alt="..."
             />
             <div class="carousel-caption d-none d-md-block">
-                <h5>First slide label</h5>
-                <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+                <h5>The Great place to improve yourself</h5>
+                <p>ask... decide... create... improve... persuade... offer...</p>
                 <h2>
                     <c:out value="${event1.title}"/> -- <c:out value="${event1.date}"/>
                 </h2>
@@ -80,8 +78,8 @@
                     alt="..."
             />
             <div class="carousel-caption d-none d-md-block">
-                <h5>Second slide label</h5>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <h5>The Great place to improve yourself</h5>
+                <p>ask... decide... create... improve... persuade... offer...</p>
                 <h2>
                     <c:out value="${event2.title}"/> -- <c:out value="${event2.date}"/>
                 </h2>
@@ -103,8 +101,8 @@
                     alt="..."
             />
             <div class="carousel-caption d-none d-md-block">
-                <h5>Third slide label</h5>
-                <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
+                <h5>The Great place to improve yourself</h5>
+                <p>ask... decide... create... improve... persuade... offer...</p>
                 <h2>
                     <c:out value="${event3.title}"/> -- <c:out value="${event3.date}"/>
                 </h2>

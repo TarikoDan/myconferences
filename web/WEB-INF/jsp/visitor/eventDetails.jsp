@@ -123,10 +123,16 @@
             </form>
         </c:if>
 
-        <a class="btn btn-info"
+        <a class="btn btn-info mb-4"
            href="${pageContext.request.contextPath}">
             BACK to home page
         </a>
+
+        <form method="post" action="controller" class="my-0 p-2">
+            <input type="hidden" name="command" value="navEvents"/>
+            <button type="submit" class="btn btn-success my-auto">BACK to Events</button>
+        </form>
+
 
     </div>
 </div>

@@ -121,7 +121,7 @@ public class UserDAOImp extends GenericDAO<User> implements UserDAO {
     final String FIND_ALL_SPEAKERS_ON_EVENT =
         "SELECT * FROM user WHERE role_id = 2 AND id IN " +
             "(SELECT speaker FROM report JOIN report_event re " +
-            "ON report.id = re.report_id AND re.event_id = 9)";
+            "ON report.id = re.report_id AND re.event_id = ?)";
     try {
       return findAllWithConditionssssssss(FIND_ALL_SPEAKERS_ON_EVENT, connection, eventId);
     } catch (SQLException ex) {

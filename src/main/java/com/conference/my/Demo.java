@@ -18,9 +18,9 @@ public class Demo {
 //    user.setRole(Role.valueOf("MODERATOR"));
 
     final User userTest = new User();
-    userTest.setName("Volo");
-    userTest.setEmail("volodym1@mail.com");
-    userTest.setPassword("vvv");
+    userTest.setName("Volodymyr");
+    userTest.setEmail("volodymyr@mail.com");
+    userTest.setPassword("volodymyr");
     userTest.setRole(Role.SPEAKER);
 //
     final UserDAO userDAO = DAOFactory.getUserDAO();
@@ -101,10 +101,12 @@ public class Demo {
     eventById.addVisitor(122);
     System.out.println(eventById.hasVisitor(122));
     final List<Event> futureEvents = eventDAO.getFutureEvents();
-    final Event eventById9 = eventDAO.findEventById(9);
+    final Event eventById9 = eventDAO.findEventById(8);
     System.out.println(eventById9);
     System.out.println(futureEvents.stream().anyMatch(event -> event.getId() == eventById9.getId()));
 
+
+    System.out.println(DAOFactory.getUserDAO().updateUserById(5, userTest));
   }
   
 

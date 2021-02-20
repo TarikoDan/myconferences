@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "MainController" , urlPatterns = {"/controller/*", "/en/*"})
+@WebServlet(name = "MainController" , urlPatterns = {"/controller/*", "/en/*", "/ua/*"})
 public class Controller extends HttpServlet {
   private static final Logger LOGGER = LogManager.getLogger(Controller.class);
   private static final CommandContainer commandContainer = CommandContainer.getContainer();

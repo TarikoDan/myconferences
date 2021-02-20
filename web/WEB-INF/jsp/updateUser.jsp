@@ -13,7 +13,8 @@
 
 <!-- Pills navs -->
 <div class="container-md col-md-6 mx-auto p-5">
-    <form id="updateUser" action="controller" method="post">
+    <form id="updateUser" action="controller" method="post"
+          onsubmit="return confirm('Are you sure you want to update?')">
         <input type="hidden" name="command" value="updateUser"/>
 
         <!-- 2 column grid layout with text inputs for the first and last names -->

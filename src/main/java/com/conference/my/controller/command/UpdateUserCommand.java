@@ -47,10 +47,10 @@ public class UpdateUserCommand implements Command {
     }
 
     final User user = new User(name, email, password);
-    user.setLastname(lastname);
-    if (speaker == null || speaker.equals("speaker"))     user.setRole(Role.SPEAKER);
-    if (speaker != null && !speaker.equals("speaker"))     user.setRole(Role.VISITOR);
-    if (oldUserRole == Role.MODERATOR)     user.setRole(Role.MODERATOR);
+    if (lastname != null) user.setLastname(lastname);
+    user.setRole(Role.VISITOR);
+    if (speaker != null || Role.SPEAKER == oldUserRole)  user.setRole(Role.SPEAKER);
+    if (Role.MODERATOR == oldUserRole)     user.setRole(Role.MODERATOR);
 
     final boolean success = DAOFactory.getUserDAO().updateUserById( oldUser.getId(), user);
     if (!success) {

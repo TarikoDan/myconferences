@@ -18,12 +18,11 @@
     <%--    <jsp:useBean id="now" class="java.util.Date"  />--%>
     <%--    <fmt:formatDate value="${now}"  pattern="yyyy-MM-dd"/>--%>
 
-    <h1>HOME Page</h1>
     <%--    <c:set var="events" value="${applicationScope.get('init')}"/>--%>
     <c:set var="events" value="${applicationScope.initEvents}"/>
     <c:set var="registered" value="${sessionScope.registered}"/>
 
-    <div class="container-md col-md-5 mx-auto text-center">
+    <div class="container-md col-md-8 mx-auto text-center">
         <!-- Modal -->
 
         <c:if test="${not empty registered}">
@@ -39,16 +38,14 @@
         </c:if>
 
         <c:forEach items="${events}" var="event">
-            <h2>
-                <c:out value="${event.title}"/> -- <c:out value="${event.date}"/>
-            </h2>
+            <h4 class="text-black-50"> <c:out value="${event.title}"/> </h4>
+            <h5> <c:out value="${event.date}"/> </h5>
                 <form method="post" action="controller">
                     <input type="hidden" name="command" value="eventDetails">
                     <input type="hidden" name="eventId" value="${event.id}">
                     <input type="hidden" name="userId" value="${user.id}">
                     <button type="submit" class="btn btn-dark">event Details...</button>
                 </form>
-
             <br>
         </c:forEach>
 

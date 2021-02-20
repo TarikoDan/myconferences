@@ -28,29 +28,73 @@
             <h5 >This event is ongoing right now</h5>
             <h3><c:out value="${event.date}"/></h3>
 
-            <p class="card-text">
-                With supporting text below as a natural lead-in to additional content.
+            <p class="card-text note note-light">
+                You are an important part of our event. Thanks for visiting.
             </p>
             <div id="reports" >
-                <h1>reports</h1>
+                <h3 class="display-3">Reports List on this Event</h3>
+
                 <c:forEach items="${eventReports}" var="report">
-                    <h2>Topic:  <c:out value="${report.topic}"/></h2>
-                    <h3>Speaker: <c:out value="${report.speaker.name}"/></h3>
+<%--                    <h2>Topic:  <c:out value="${report.topic}"/></h2>--%>
+<%--                    <h3>Speaker: <c:out value="${report.speaker.name}"/></h3>--%>
+
+<%--                   ///////////////////Card///////////////////////--%>
+                    <div class="card text-white bg-dark mb-3" style="max-width: 720px">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img
+                                        src="https://picsum.photos/200?random=${report.id}"
+                                        alt="..."
+                                        class="img-fluid"
+                                />
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">Card title</h5>
+                                    <h2>Topic:  <c:out value="${report.topic}"/></h2>
+                                    <h3>Speaker: <c:out value="${report.speaker.name}"/></h3>
+                                    <p class="card-text">
+                                        <small class="text-muted">Last updated 3 mins ago</small>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+<%--                   ///////////////////Card///////////////////////--%>
+
                 </c:forEach>
                 <hr>
+
+
             </div>
 
             <div id="speakers" hidden>
-                <h2>Speakers</h2>
+                <h3 class="display-3">Speakers List on this Event</h3>
                 <c:forEach items="${eventSpeakers}" var="speaker">
-                    <h3>Name:  <c:out value="${speaker.name}"/></h3>
-                    <h4>Email: <c:out value="${speaker.email}"/></h4>
+<%--                    <h3>Name:  <c:out value="${speaker.name}"/></h3>--%>
+<%--                    <h4>Email: <c:out value="${speaker.email}"/></h4>--%>
+
+<%--                    //////////////////--%>
+                    <div class="card shadow-2-strong border border-dark mb-3">
+                        <div class="row g-0">
+                            <div class="col-md-4"><img src="https://picsum.photos/id/${speaker.id}/200"
+                                                       class="img-fluid" alt=""></div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">Card title</h5>
+                                    <h3>Name: <c:out value="${speaker.name}"/></h3>
+                                    <h4>Email: <c:out value="${speaker.email}"/></h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+<%--                    //////////////////////--%>
                 </c:forEach>
                 <hr>
             </div>
 
             <div id="location" hidden>
-                <h1>location</h1>
+                <h3 class="display-3">Location of this Event</h3>
                 <ul class="list-group list-group-flush bg-transparent">
                     <div class="d-flex">
                         <h6 class="col-1"><span class="badge bg-dark">zipCode</span></h6> <h5
