@@ -37,7 +37,7 @@ public class CommandAccessFilter implements Filter {
     final ArrayList<String> speakerAccessList = new ArrayList<>();
     final ArrayList<String> visitorAccessList = new ArrayList<>();
     Collections.addAll(visitorAccessList,
-        "registerUserForEvent", "visitEvent", "navEvents");
+        "registerUserForEvent", "visitEvent");
 
     accessMap.put(Role.MODERATOR, moderatorAccessList);
     accessMap.put(Role.SPEAKER, speakerAccessList);
@@ -46,7 +46,7 @@ public class CommandAccessFilter implements Filter {
 
     // commons
     Collections.addAll(outOfControl, "login", "loginPage", "noCommand",
-        "register", "newUser");
+        "register", "newUser", "navEvents");
     LOGGER.trace("OutOfControl commands --> " + outOfControl);
 
     Collections.addAll(commons, "logOut", "eventDetails", "settingsUser", "updateUser");
@@ -69,7 +69,7 @@ public class CommandAccessFilter implements Filter {
       request.setAttribute("errorCode", errorCode);
       LOGGER.trace("Set the request attribute: errorMessage --> " + errorMessage);
 
-      request.getRequestDispatcher(Pages.ERROR_PAGE)
+      request.getRequestDispatcher(Pages.ERROR_PAGE_403)
           .forward(request, response);
     }
   }
@@ -86,13 +86,13 @@ public class CommandAccessFilter implements Filter {
     if (outOfControl.contains(commandName))
       return true;
 
-    if (commons.contains(commandName))
-      return true;
-
     HttpSession session = httpRequest.getSession(false);
     if (session == null) {
       return false;
     }
+
+    if (commons.contains(commandName))
+      return true;
 
     Role userRole = (Role) session.getAttribute("userRole");
     if (userRole == null)

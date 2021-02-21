@@ -23,7 +23,7 @@ public class VisitEventCommand implements Command {
     if (event == null) {
       String message = "This Event has no any Reports yet";
       request.setAttribute("errorMessage", message);
-      return Pages.ERROR_PAGE;
+      return Pages.ERROR_PAGE_403;
     }
 
     final int userId = Integer.parseInt(request.getParameter("userId"));

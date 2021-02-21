@@ -1,15 +1,13 @@
 <%@ include file="/WEB-INF/jspf/page.jspf" %>
 
 <html>
-
 <c:set var="title" value="register" />
-<c:set var="background" value="${pageContext.request.contextPath}/images/default.jpg" />
-<c:set var="height" value="200px" />
-
+<c:set var="techPage" value="techPage" />
 <%@ include file="/WEB-INF/jspf/head.jspf" %>
 
 <body>
 <%@ include file="/WEB-INF/jspf/header.jspf" %>
+<%@ include file="/WEB-INF/jspf/info.jspf" %>
 
 <!-- Pills navs -->
 <div class="container-md col-md-6 mx-auto p-5">

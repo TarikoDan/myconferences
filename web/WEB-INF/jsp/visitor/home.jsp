@@ -2,19 +2,18 @@
 <html>
 
 <c:set var="title" value="conferenses" />
-<c:set var="background" value="'https://mdbootstrap.com/img/new/slides/041.jpg'" />
-<c:set var="height" value="400px" />
 
 <%@ include file="/WEB-INF/jspf/head.jspf" %>
 
+<%--Visitor Home Page--%>
 <body>
 <%@ include file="/WEB-INF/jspf/header.jspf" %>
 <%--<jsp:include page="/WEB-INF/jspf/header.jspf" />--%>
 
 <main>
     <%--    <c:out value="<%= new java.util.Date() %>"/>--%>
-    <c:set var="now" value="<%= java.time.LocalDate.now() %>"/>
-    <c:out value="Today is: ${now}"/>
+<%--    <c:set var="now" value="<%= java.time.LocalDate.now() %>"/>--%>
+<%--    <c:out value="Today is: ${now}"/>--%>
     <%--    <jsp:useBean id="now" class="java.util.Date"  />--%>
     <%--    <fmt:formatDate value="${now}"  pattern="yyyy-MM-dd"/>--%>
 

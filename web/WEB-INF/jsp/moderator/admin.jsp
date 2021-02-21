@@ -1,12 +1,12 @@
 <%@ include file="/WEB-INF/jspf/page.jspf" %>
 
 <html>
-
 <c:set var="title" value="main" />
 <%@ include file="/WEB-INF/jspf/head.jspf" %>
 
 <body>
 <%@ include file="/WEB-INF/jspf/header.jspf" %>
+<%@ include file="/WEB-INF/jspf/info.jspf" %>
 
 <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
     <ol class="carousel-indicators">

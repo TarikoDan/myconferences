@@ -18,18 +18,18 @@ public class NavEventsCommand implements Command {
   @Override
   public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
     final HttpSession session = request.getSession();
-//    if (session == null || session.getAttribute("userRole") == null)
-//      return Constant.LOGIN;
+    if (session == null || session.getAttribute("userRole") == null)
+      return Pages.INIT_EVENTS;
 
     final Role userRole = (Role) session.getAttribute("userRole");
-    if(userRole == null)
-      return Pages.LOGIN;
+//    if(userRole == null)
+//      return Pages.LOGIN;
 
     User user = (User) session.getAttribute("user");
     final int userId = user.getId();
 
+    List<Event> futureEvents = DAOFactory.getEventDAO().getFutureEvents();
     if (userRole == Role.VISITOR) {
-      List<Event> futureEvents = DAOFactory.getEventDAO().getFutureEvents();
       final List<Event> registered = DAOFactory.getEventDAO().findAllEventsWhichVisitorRegistered(userId);
 
       futureEvents = futureEvents.stream().peek(event -> {
@@ -41,7 +41,16 @@ public class NavEventsCommand implements Command {
       final List<Event> visitedEvents = DAOFactory.getEventDAO().findAllEventsWhichVisitedByVisitor(userId);
       visitedEvents.forEach(event -> user.addVisitedEvent(event.getId()));
 
-      return Pages.VISITOR_EVENTS_PAGE;
+      return Pages.VISITOR_ALL_EVENTS_PAGE;
+    }
+
+    if (userRole == Role.SPEAKER) {
+      final List<Event> participatedEvents =
+          DAOFactory.getEventDAO().findAllEventsBySpeaker(userId);
+      request.setAttribute("events", futureEvents);
+      request.setAttribute("participatedEvents", participatedEvents);
+
+      return Pages.SPEAKER_ALL_EVENTS_PAGE;
     }
 //    TODO for another Roles
     return null;

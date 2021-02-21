@@ -4,8 +4,6 @@
 <html>
 
 <c:set var="title" value="Error" scope="page" />
-<c:set var="background" value="${pageContext.request.contextPath}/images/default.jpg" />
-<c:set var="height" value="200px" />
 
 <%@ include file="/WEB-INF/jspf/head.jspf" %>
 

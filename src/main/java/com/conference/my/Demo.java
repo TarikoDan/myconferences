@@ -57,7 +57,7 @@ public class Demo {
     final Location.Builder builder = Location.newBuilder();
     final Location location = builder
         .id(1)
-        .zipCode(82400)
+        .zipCode("82400")
         .country("Ukraine")
         .region("Lviv")
         .city("Stryi")
@@ -91,7 +91,7 @@ public class Demo {
 //    eventDAO.addReportToEvent(1, 4);
 //    eventDAO.addReportToEvent(4, 4);
     final User user4 = userDAO.findUserById(4);
-    System.out.println(eventDAO.findAllEventsBySpeaker(user4));
+    System.out.println(eventDAO.findAllEventsBySpeaker(user4.getId()));
 
     System.out.println(userDAO.findUserByEmail("taras@gmail.com"));
 
@@ -106,7 +106,7 @@ public class Demo {
     System.out.println(futureEvents.stream().anyMatch(event -> event.getId() == eventById9.getId()));
 
 
-    System.out.println(DAOFactory.getUserDAO().updateUserById(5, userTest));
+//    System.out.println(DAOFactory.getUserDAO().updateUserById(5, userTest));
   }
   
 

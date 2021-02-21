@@ -1,22 +1,19 @@
 <%@ include file="/WEB-INF/jspf/page.jspf" %>
+<%@ page import="com.conference.my.model.entity.Location" %>
 
 <html>
-
 <c:set var="title" value="Home" />
-<c:set var="background" value="'https://mdbootstrap.com/img/new/slides/040.jpg'" />
-<c:set var="height" value="200px" />
-
 <%@ include file="/WEB-INF/jspf/head.jspf"%>
-<body>
-<%@ include file="/WEB-INF/jspf/header.jspf" %>
 
-<c:set var="now" value="<%= java.time.LocalDate.now() %>"/>
-<c:out value="Today is: ${now}"/>
 <c:set var="events" value="${applicationScope.initEvents}"/>
 <c:set var="event1" value="${events[0]}"/>
 <c:set var="event2" value="${events[1]}"/>
 <c:set var="event3" value="${events[2]}"/>
 <c:set var="registered" value="${sessionScope.registered}"/>
+
+<body>
+<%@ include file="/WEB-INF/jspf/header.jspf" %>
+<%@ include file="/WEB-INF/jspf/info.jspf" %>
 
 <div class="container-md col-md-5 mx-auto text-center">
     <!-- Modal -->
@@ -57,9 +54,14 @@
             <div class="carousel-caption d-none d-md-block">
                 <h5>The Great place to improve yourself</h5>
                 <p>ask... decide... create... improve... persuade... offer...</p>
-                <h2>
-                    <c:out value="${event1.title}"/> -- <c:out value="${event1.date}"/>
-                </h2>
+                <h3 class="display-3">
+                    <c:out value="${event1.title}"/>
+                </h3>
+                <h3>
+                    <c:out value="${event1.date}"/>
+                </h3>
+                <h5>${event1.location.country}. --${event1.location.city}--</h5>
+
                 <form method="post" action="controller">
                     <input type="hidden" name="command" value="eventDetails">
                     <input type="hidden" name="eventId" value="${event1.id}">
@@ -80,9 +82,13 @@
             <div class="carousel-caption d-none d-md-block">
                 <h5>The Great place to improve yourself</h5>
                 <p>ask... decide... create... improve... persuade... offer...</p>
-                <h2>
-                    <c:out value="${event2.title}"/> -- <c:out value="${event2.date}"/>
-                </h2>
+                <h3 class="display-3">
+                    <c:out value="${event2.title}"/>
+                </h3>
+                <h3>
+                    <c:out value="${event2.date}"/>
+                </h3>
+                <h5>${event2.location.country}. --${event2.location.city}--</h5>
                 <form method="post" action="controller">
                     <input type="hidden" name="command" value="eventDetails">
                     <input type="hidden" name="eventId" value="${event2.id}">
@@ -103,9 +109,13 @@
             <div class="carousel-caption d-none d-md-block">
                 <h5>The Great place to improve yourself</h5>
                 <p>ask... decide... create... improve... persuade... offer...</p>
-                <h2>
-                    <c:out value="${event3.title}"/> -- <c:out value="${event3.date}"/>
-                </h2>
+                <h3 class="display-3">
+                    <c:out value="${event3.title}"/>
+                </h3>
+                <h3>
+                    <c:out value="${event3.date}"/>
+                </h3>
+                <h5>${event3.location.country}. --${event3.location.city}--</h5>
                 <form method="post" action="controller">
                     <input type="hidden" name="command" value="eventDetails">
                     <input type="hidden" name="eventId" value="${event3.id}">
@@ -176,6 +186,7 @@
             </div>
         </div>
     </div>
+
 </div>
 
 <%@ include file="/WEB-INF/jspf/footer.jspf"%>

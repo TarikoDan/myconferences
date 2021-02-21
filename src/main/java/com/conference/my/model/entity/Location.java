@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class Location extends Entity{
   private static final long serialVersionUID = -4795009137377327294L;
-  private int zipCode;
+  private String zipCode;
   private String country;
   private String region;
   private String city;
@@ -15,7 +15,7 @@ public class Location extends Entity{
   public Location() {
   }
 
-  public int getZipCode() {
+  public String getZipCode() {
     return zipCode;
   }
 
@@ -57,7 +57,7 @@ public class Location extends Entity{
       return this;
     }
 
-    public Builder zipCode(int zipCode) {
+    public Builder zipCode(String zipCode) {
       Location.this.zipCode = zipCode;
       return this;
     }
@@ -105,7 +105,7 @@ public class Location extends Entity{
 
     Location location = (Location) o;
 
-    if (zipCode != location.zipCode) return false;
+    if (!zipCode.equals(location.zipCode)) return false;
     if (!country.equals(location.country)) return false;
     if (!Objects.equals(region, location.region)) return false;
     if (!city.equals(location.city)) return false;
@@ -116,7 +116,7 @@ public class Location extends Entity{
 
   @Override
   public int hashCode() {
-    int result = zipCode;
+    int result = zipCode.hashCode();
     result = 31 * result + country.hashCode();
     result = 31 * result + (region != null ? region.hashCode() : 0);
     result = 31 * result + city.hashCode();
@@ -131,7 +131,7 @@ public class Location extends Entity{
     final StringBuilder sb = new StringBuilder();
     sb.append("Location{")
         .append(0 == id ? "" : "id: " + id + ", ")
-        .append(0 == zipCode ? "" : "zipCode: " + zipCode + ", ")
+        .append(null == zipCode ? "" : "zipCode: " + zipCode + ", ")
         .append(null == country ? "" : "country: " + country + ", ")
         .append(null == region ? "" : "region: " + region + ", ")
         .append(null == city ? "" : "city: " + city + ", ")

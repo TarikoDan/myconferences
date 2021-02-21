@@ -85,7 +85,7 @@ public class LocationDAOImp extends GenericDAO<Location> implements LocationDAO 
       int k = 1;
       return builder
           .id(rs.getInt(k++))
-          .zipCode(rs.getInt(k++))
+          .zipCode(rs.getString(k++))
           .country(rs.getString(k++))
           .region(rs.getString(k++))
           .city(rs.getString(k++))
@@ -99,7 +99,7 @@ public class LocationDAOImp extends GenericDAO<Location> implements LocationDAO 
     public int insertEntity(PreparedStatement prst, Location location) throws SQLException {
       int res;
       int k = 1;
-      prst.setInt(k++, convertNullable(location, Location::getZipCode));
+      prst.setString(k++, convertNullable(location, Location::getZipCode));
       prst.setString(k++, convertNullable(location, Location::getCountry));
       prst.setString(k++, convertNullable(location, Location::getRegion));
       prst.setString(k++, convertNullable(location, Location::getCity));

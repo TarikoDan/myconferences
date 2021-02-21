@@ -1,0 +1,4 @@
+<div class="bg-dark d-flex justify-content-between">
+    <h5><c:out value="Today is: ${now}"/></h5>
+    <h5><c:out value="Role is: ${sessionScope.userRole}"/></h5>
+</div>

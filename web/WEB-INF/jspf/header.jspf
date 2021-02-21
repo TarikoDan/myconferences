@@ -1,4 +1,29 @@
+<%@ page import="com.conference.my.controller.Pages" %>
+<c:set var="now" value="<%= java.time.LocalDate.now() %>"/>
 <c:set var="email" value="${empty user.email?'not logined':user.email}" />
+<c:choose>
+    <c:when test="${techPage.equals('techPage')}">
+        <c:set var="background" value="${pageContext.request.contextPath}/images/default.jpg" />
+    </c:when>
+    <c:when test="${empty sessionScope.userRole}">
+        <c:set var="background" value="'https://mdbootstrap.com/img/new/slides/041.jpg'" />
+    </c:when>
+    <c:when test="${sessionScope.userRole == 'VISITOR'}">
+        <c:set var="background" value="'https://mdbootstrap.com/img/new/slides/025.jpg'" />
+    </c:when>
+    <c:when test="${sessionScope.userRole == 'SPEAKER'}">
+        <c:set var="background" value="'https://mdbootstrap.com/img/new/slides/042.jpg'" />
+    </c:when>
+    <c:when test="${sessionScope.userRole == 'MODERATOR'}">
+        <c:set var="background" value="'https://mdbootstrap.com/img/new/slides/031.jpg'" />
+    </c:when>
+</c:choose>
+
+<c:set var="backgroundHeight" value="200px" />
+<c:set var="isAllowed" value="${not empty sessionScope.userRole
+                    && (sessionScope.userRole == 'MODERATOR' || sessionScope.userRole == 'SPEAKER')}" />
+
+
 <%--===========================================================================
 Header (top area).
 ===========================================================================--%>
@@ -37,23 +62,24 @@ Header (top area).
                             <button type="submit" class="btn btn-dark my-auto">Events</button>
                         </form>
                     </li>
+                    <c:if test="${isAllowed == true}">
+                        <li class="nav-item ">
+                            <form method="post" action="controller" class="my-0 p-2">
+                                <input type="hidden" name="command" value="navReports"/>
+                                <button type="submit" class="btn btn-dark my-auto">Reports</button>
+                            </form>
+                        </li>
+                        <li class="nav-item ">
+                            <form method="post" action="controller" class="my-0 p-2">
+                                <input type="hidden" name="command" value="navSpeakers"/>
+                                <button type="submit" class="btn btn-dark my-auto">Speakers</button>
+                            </form>
+                        </li>
+                    </c:if>
                     <li class="nav-item ">
-                        <form method="post" action="controller" class="my-0 p-2">
-                            <input type="hidden" name="command" value="navSpeakers"/>
-                            <button type="submit" class="btn btn-dark my-auto">Speakers</button>
-                        </form>
-                    </li>
-                    <li class="nav-item ">
-                        <form method="post" action="controller" class="my-0 p-2">
-                            <input type="hidden" name="command" value="navReports"/>
-                            <button type="submit" class="btn btn-dark my-auto">Reports</button>
-                        </form>
-                    </li>
-                    <li class="nav-item ">
-                        <form method="post" action="controller" class="my-0 p-2">
-                            <input type="hidden" name="command" value="navReports"/>
-                            <button type="submit" class="btn btn-dark my-auto">About</button>
-                        </form>
+                        <a class="nav-link active" href="<%=Pages.ABOUT%>" target="_blank" aria-current="page" >
+                            <button type="submit" class="btn btn-dark">About</button>
+                        </a>
                     </li>
                 </ul>
             </div>
@@ -87,10 +113,6 @@ Header (top area).
                                 loading="lazy"
                         />
                     </a>
-<%--                    <img height="30"--%>
-<%--                         class="rounded-circle"--%>
-<%--                         src="${pageContext.request.contextPath}/images/user-icon.png"--%>
-<%--                         alt="logo">--%>
 
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         <li><form method="post" action="controller">
@@ -143,9 +165,8 @@ Header (top area).
     <!-- Background image -->
     <div class="p-5 mt-5 text-center bg-image"
         style="
-          /*background-image: url('https://mdbootstrap.com/img/new/slides/041.jpg');*/
           background-image: url(${background});
-          height: ${height};
+          height: ${backgroundHeight};
         ">
         <div class="mask" style="background-color: rgba(0, 0, 0, 0.6)">
             <div class="d-flex justify-content-center align-items-center h-100">

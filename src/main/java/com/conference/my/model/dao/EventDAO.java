@@ -13,7 +13,7 @@ public interface EventDAO {
   Event findEventByTitle(String eventTitle);
   List<Event> findAllEvents();
   List<Event> findAllEventsByDate(LocalDate fromDate, LocalDate toDate);
-  List<Event> findAllEventsBySpeaker(User speaker);
+  List<Event> findAllEventsBySpeaker(int speakerId);
   List<Event> findAllEventsWhichVisitorRegistered(int visitorId);
   List<Event> findAllEventsWhichVisitedByVisitor(int visitorId);
   List<Event> getPastEvents();

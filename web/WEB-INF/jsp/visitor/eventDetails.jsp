@@ -2,17 +2,14 @@
 <%@ page import="com.conference.my.model.entity.Location" %>
 
 <html>
-
 <c:set var="title" value="event - ${event.title}"/>
-<c:set var="background" value="'https://mdbootstrap.com/img/new/slides/040.jpg'" />
-<c:set var="height" value="200px" />
-
-<c:set var="now" value="<%= java.time.LocalDate.now() %>"/>
-<c:set var="daysLeft" value="${event.date.toEpochDay()-now.toEpochDay()}"/>
 <%@ include file="/WEB-INF/jspf/head.jspf" %>
+
+<c:set var="daysLeft" value="${event.date.toEpochDay()-now.toEpochDay()}"/>
 
 <body>
 <%@ include file="/WEB-INF/jspf/header.jspf" %>
+<%@ include file="/WEB-INF/jspf/info.jspf" %>
 
 <div class="container-md col-md-6 mx-auto p-5 ">
     <c:if test="${event.hasVisitor(user.id) == true}">

@@ -19,7 +19,7 @@ public class NoCommand implements Command {
     LOGGER.error("Set the request attribute: errorMessage --> " + errorMessage);
 
     LOGGER.debug("Command finished");
-    return Pages.ERROR_PAGE;
+    return Pages.ERROR_PAGE_403;
 
   }
 }

@@ -87,14 +87,14 @@ public class EventDAOImp extends GenericDAO<Event> implements EventDAO {
   }
 
   @Override
-  public List<Event> findAllEventsBySpeaker(User speaker) {
+  public List<Event> findAllEventsBySpeaker(int speakerId) {
     final String FIND_ALL_EVENTS_BY_SPEAKER =
         "SELECT * FROM event WHERE id IN" +
         "(SELECT event_id FROM report_event re JOIN report r ON re.report_id = r.id AND r.speaker = ?)";
     try {
-      return findAllWithCondition(speaker.getId(), FIND_ALL_EVENTS_BY_SPEAKER, connection);
+      return findAllWithCondition(speakerId, FIND_ALL_EVENTS_BY_SPEAKER, connection);
     } catch (SQLException ex) {
-      LOGGER.error("Event involving Speaker with Id: {} wasn't found", speaker.getId(), ex);
+      LOGGER.error("Event involving Speaker with Id: {} wasn't found", speakerId, ex);
       throw new NoSuchElementException("Event wasn't found");
     }
   }

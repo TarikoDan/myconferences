@@ -26,7 +26,7 @@ public class EventDetailsCommand implements Command {
     System.out.println("eventId -> " + eventId);
     final Event event = DAOFactory.getEventDAO().findEventById(eventId);
     if (event == null)
-      return Pages.ERROR_PAGE;
+      return Pages.ERROR_PAGE_403;
     final List<Event> registered = DAOFactory.getEventDAO().findAllEventsWhichVisitorRegistered(userId);
 
     if (registered.stream().anyMatch(e -> e.getId() == eventId))

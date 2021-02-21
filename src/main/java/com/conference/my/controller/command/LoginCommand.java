@@ -22,7 +22,7 @@ public class LoginCommand implements Command {
     final String password = request.getParameter("password");
     System.out.println("password = > " + password);
 
-    String result = Pages.ERROR_PAGE;
+    String result = Pages.ERROR_PAGE_403;
     String message;
 
     if (email == null || email.isEmpty()) {
@@ -57,16 +57,15 @@ public class LoginCommand implements Command {
       if (userRole == Role.MODERATOR)
         result = Pages.ADMIN_HOME_PAGE;
 
-      if (userRole == Role.SPEAKER)
-        result = Pages.SPEAKER_HOME_PAGE;
+      if (userRole == Role.SPEAKER || userRole == Role.VISITOR)
+        result = Pages.HOME;
 
-      if (userRole == Role.VISITOR)
-        result = Pages.VISITOR_HOME_PAGE;
-
-      session.setAttribute("user", user);
+      session.invalidate();
+      final HttpSession newSession = request.getSession();
+      newSession.setAttribute("user", user);
       LOGGER.trace("Set the session attribute: user --> " + user);
 
-      session.setAttribute("userRole", userRole);
+      newSession.setAttribute("userRole", userRole);
       LOGGER.trace("Set the session attribute: userRole --> " + userRole);
 
       LOGGER.info("User " + user + " logged as " + userRole);

@@ -2,16 +2,12 @@
 <%@ page import="com.conference.my.model.entity.Location" %>
 
 <html>
-
 <c:set var="title" value="event - ${event.title}"/>
-<c:set var="background" value="'https://mdbootstrap.com/img/new/slides/040.jpg'" />
-<c:set var="height" value="200px" />
-
-<c:set var="now" value="<%= java.time.LocalDate.now() %>"/>
 <%@ include file="/WEB-INF/jspf/head.jspf" %>
 
 <body>
 <%@ include file="/WEB-INF/jspf/header.jspf" %>
+<%@ include file="/WEB-INF/jspf/info.jspf" %>
 
 <div class="container-fluid mx-auto p-5 ">
 
@@ -32,12 +28,12 @@
                 You are an important part of our event. Thanks for visiting.
             </p>
             <div id="reports" >
-                <h3 class="display-3">Reports List on this Event</h3>
+                <h4 class="display-4">Reports List on this Event</h4>
+                <c:if test="${empty eventReports}">
+                    <h5 class='display-5'><c:out value="is Empty"/></h5>
+                </c:if>
 
                 <c:forEach items="${eventReports}" var="report">
-<%--                    <h2>Topic:  <c:out value="${report.topic}"/></h2>--%>
-<%--                    <h3>Speaker: <c:out value="${report.speaker.name}"/></h3>--%>
-
 <%--                   ///////////////////Card///////////////////////--%>
                     <div class="card text-white bg-dark mb-3" style="max-width: 720px">
                         <div class="row g-0">
@@ -64,16 +60,15 @@
 
                 </c:forEach>
                 <hr>
-
-
             </div>
 
             <div id="speakers" hidden>
-                <h3 class="display-3">Speakers List on this Event</h3>
-                <c:forEach items="${eventSpeakers}" var="speaker">
-<%--                    <h3>Name:  <c:out value="${speaker.name}"/></h3>--%>
-<%--                    <h4>Email: <c:out value="${speaker.email}"/></h4>--%>
+                <h4 class="display-4">Speakers List on this Event</h4>
+                <c:if test="${empty eventSpeakers}">
+                    <h5 class='display-5'><c:out value="is Empty"/></h5>
+                </c:if>
 
+                <c:forEach items="${eventSpeakers}" var="speaker">
 <%--                    //////////////////--%>
                     <div class="card shadow-2-strong border border-dark mb-3">
                         <div class="row g-0">
@@ -94,7 +89,11 @@
             </div>
 
             <div id="location" hidden>
-                <h3 class="display-3">Location of this Event</h3>
+                <h4 class="display-4">Location of this Event</h4>
+                <c:if test="${empty event.location}">
+                    <h5 class='display-5'><c:out value="is not specified"/></h5>
+                </c:if>
+
                 <ul class="list-group list-group-flush bg-transparent">
                     <div class="d-flex">
                         <h6 class="col-1"><span class="badge bg-dark">zipCode</span></h6> <h5

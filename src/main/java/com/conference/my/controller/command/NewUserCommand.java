@@ -27,7 +27,7 @@ public class NewUserCommand implements Command {
     System.out.println("password = > " + password);
 
 
-    String result = Pages.ERROR_PAGE;
+    String result = Pages.ERROR_PAGE_403;
     String message;
 
     if (email == null || email.isEmpty()) {
@@ -37,6 +37,11 @@ public class NewUserCommand implements Command {
       return result;
     }
 
+    if (DAOFactory.getUserDAO().findUserByEmail(email) != null) {
+      request.setAttribute("wrongEmail", email);
+      return Pages.ERROR_PAGE_409;
+
+    }
     if (password == null || password.isEmpty()) {
 
       message = "Password cannot be empty";

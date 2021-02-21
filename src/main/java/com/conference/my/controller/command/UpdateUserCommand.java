@@ -29,7 +29,7 @@ public class UpdateUserCommand implements Command {
     final String speaker = request.getParameter("speaker");
     System.out.println(speaker);
 
-    String result = Pages.ERROR_PAGE;
+    String result = Pages.ERROR_PAGE_403;
     String message;
 
     if (email == null || email.isEmpty()) {

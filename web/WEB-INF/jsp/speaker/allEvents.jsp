@@ -10,8 +10,7 @@
 <%@ include file="/WEB-INF/jspf/info.jspf" %>
 
 <main>
-    <h5>EVENTS VISITOR Page</h5>
-    <%--    <c:set var="events" value="${requestScope.events}"/>--%>
+    <h5>EVENTS SPEAKER Page</h5>
     <div class="d-flex justify-content-end">
         <button type="submit" class="btn btn-outline-primary disabled">Apply to all:</button>
     </div>
@@ -19,17 +18,9 @@
     <div class="container-md col-md-5 mx-auto text-center">
         <c:forEach items="${events}" var="event">
             <div
-                <c:choose>
-                    <c:when test="${user.isEventVisited(event.id) == true}">
-                        class="bg-light shadow-lg border-success"
-                    </c:when>
-                    <c:otherwise>
-                        class="bg-dark shadow-sm border-light text-light"
-                    </c:otherwise>
-                </c:choose>
-<%--            <c:if test="${user.isEventVisited(event.id) == true}">--%>
-<%--                class="bg-light shadow-lg border-success"--%>
-<%--            </c:if>--%>
+            <c:if test="${user.isEventVisited(event.id) == true}">
+                class="bg-light"
+            </c:if>
             >
                 <h2><c:out value="${event.title}"/></h2>
                 <h4><c:out value="${event.date}"/></h4>

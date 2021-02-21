@@ -45,8 +45,8 @@
 <!--        <servlet-mapping>-->
 <!--            <servlet-name>MainController</servlet-name>-->
 <!--            <url-pattern>/controller/*</url-pattern>-->
-<!--        </servlet-mapping>-->
 
+<!--        </servlet-mapping>-->
 
     <filter>
         <filter-name>AccessFilter</filter-name>

@@ -1,15 +1,13 @@
 <%@ include file="/WEB-INF/jspf/page.jspf" %>
 
 <html>
-
 <c:set var="title" value="Login" />
-<c:set var="background" value="${pageContext.request.contextPath}/images/default.jpg" />
-<c:set var="height" value="200px" />
-
+<c:set var="techPage" value="techPage" />
 <%@ include file="/WEB-INF/jspf/head.jspf" %>
 
 <body>
 <%@ include file="/WEB-INF/jspf/header.jspf" %>
+<%@ include file="/WEB-INF/jspf/info.jspf" %>
 
 <div class="container col-md-5 mx-auto">
     <form action="controller" method="post" class="mt-3">
