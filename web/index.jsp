@@ -150,7 +150,7 @@
 </div>
 <!-- Carousel wrapper -->
 
-<!-- Registration result -->
+ <!-- Registration result -->
 <div
         class="modal fade"
         id="staticBackdrop"

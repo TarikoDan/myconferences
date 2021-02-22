@@ -38,6 +38,8 @@ public class CommandAccessFilter implements Filter {
     final ArrayList<String> visitorAccessList = new ArrayList<>();
     Collections.addAll(visitorAccessList,
         "registerUserForEvent", "visitEvent");
+    Collections.addAll(speakerAccessList,
+        "navReports", "reportDetails", "createOwnReport", "newReport");
 
     accessMap.put(Role.MODERATOR, moderatorAccessList);
     accessMap.put(Role.SPEAKER, speakerAccessList);

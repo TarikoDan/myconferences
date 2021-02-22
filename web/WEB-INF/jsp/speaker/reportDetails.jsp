@@ -1,8 +1,6 @@
 <%@ include file="/WEB-INF/jspf/page.jspf" %>
-<%@ page import="com.conference.my.model.entity.Location" %>
 
 <html>
-<c:set var="title" value="event - ${event.title}"/>
 <%@ include file="/WEB-INF/jspf/head.jspf" %>
 
 

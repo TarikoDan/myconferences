@@ -21,7 +21,7 @@ CREATE TABLE user (
     name VARCHAR(30) NOT NULL,
     email VARCHAR(30) NOT NULL UNIQUE,
     password VARCHAR(30) NOT NULL,
-    role_id INT,
+    role_id INT DEFAULT NULL,
     CONSTRAINT fk_user_role_id FOREIGN KEY (role_id)
         REFERENCES role (id)
         ON UPDATE CASCADE ON DELETE CASCADE
@@ -35,13 +35,13 @@ CREATE TABLE report (
 
 CREATE TABLE location (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    zipcode VARCHAR(10),
+    zipcode VARCHAR(10) DEFAULT NULL,
     country VARCHAR(30) NOT NULL,
-    region VARCHAR(30),
+    region VARCHAR(30) DEFAULT NULL,
     city VARCHAR(30) NOT NULL,
-    street VARCHAR(30),
-    building VARCHAR(10) NOT NULL,
-    suite VARCHAR(10),
+    street VARCHAR(30) DEFAULT NULL,
+    building VARCHAR(10) DEFAULT NULL,
+    suite VARCHAR(10) DEFAULT NULL,
     hash_code INT NOT NULL UNIQUE
 );
 
@@ -133,6 +133,7 @@ SELECT * FROM event WHERE id IN
 SELECT * FROM event WHERE id IN
     (SELECT event_id FROM report_event re JOIN report r ON re.report_id = r.id AND r.speaker = ?);
 
+
 SELECT e.id id, e.title title, e.date date, e.location_id location_id
     FROM event e JOIN report_event re ON e.id = re.event_id
     JOIN report r ON r.speaker = ?
@@ -140,7 +141,7 @@ SELECT e.id id, e.title title, e.date date, e.location_id location_id
 
 SELECT * FROM event WHERE date BETWEEN ? AND ?;
 
-select * from event where date BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL 100 YEAR);
+select * from event where date BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL 100 YEAR) ORDER BY date;
 
 SELECT * FROM event WHERE id IN
             (SELECT event_id FROM visitor_event WHERE visitor_id = 39 AND is_visited = TRUE);
@@ -154,6 +155,46 @@ SELECT * FROM user WHERE role_id = 2 AND id IN (SELECT speaker FROM report JOIN 
 UPDATE user SET name = ? , email = ? , password = ? , role_id = ? WHERE id = ? ;
 UPDATE user SET name = '3' , email = 'aa@33.com' , password = '3' , role_id = 2 WHERE id = 41 ;
 
+SELECT * FROM event WHERE id NOT IN
+            (SELECT event_id FROM report_event);
+
+SELECT * FROM event WHERE date BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL 100 YEAR)
+                      AND id NOT IN (SELECT event_id FROM report_event);
+
+SELECT e.id id, e.title title, e.date date, e.location_id, COUNT(re.event_id) AS reportsNUM
+FROM event e JOIN report_event re ON e.id = re.event_id
+GROUP BY re.event_id
+ORDER BY reportsNUM DESC;
+
+SELECT e.id id, e.title title, e.date date, e.location_id, COUNT(ve.event_id) AS visitorsNUM
+FROM event e JOIN visitor_event ve ON e.id = ve.event_id
+GROUP BY ve.event_id
+ORDER BY visitorsNUM DESC;
+
+SELECT e.id id, e.title title, e.date date, e.location_id, COUNT(ve.event_id) AS visitedNUM
+FROM event e JOIN visitor_event ve ON e.id = ve.event_id AND ve.is_visited = TRUE
+GROUP BY ve.event_id
+ORDER BY visitedNUM DESC;
+
+SELECT e.id id, e.title title, e.date date, e.location_id
+FROM event e JOIN visitor_event ve ON e.id = ve.event_id
+GROUP BY ve.event_id
+ORDER BY COUNT(ve.event_id) DESC;
+
+SELECT e.id id, e.title title, e.date date, e.location_id
+FROM event e JOIN visitor_event ve ON e.id = ve.event_id AND ve.is_visited = TRUE
+GROUP BY ve.event_id
+ORDER BY COUNT(ve.event_id) DESC;
+
+SELECT COUNT(*) FROM visitor_event;
+
+SELECT COUNT(is_visited) FROM visitor_event WHERE is_visited = TRUE;
+
+UPDATE report SET topic = ?, speaker = ? WHERE id = ?;
+
+SELECT * FROM event e JOIN report_event re ON re.report_id = e.id AND re.report_id = ?;
+
+SELECT * FROM event WHERE id IN (SELECT event_id FROM report_event WHERE report_id = ?);
 
 
 

@@ -91,19 +91,24 @@ public abstract class GenericDAO<E> {
   @SafeVarargs
   protected final <V> void setInstance(PreparedStatement prst, V... fields) throws SQLException {
     for (int i = 1; i <= fields.length; i++) {
-      V field = fields[i-1];
+      V field = fields[i - 1];
       if (field instanceof Integer)
         prst.setInt(i, (Integer) field);
-      if (field instanceof String)
+      else if (field instanceof String)
         prst.setString(i, (String) field);
-      if (field instanceof LocalDate)
+      else if (field instanceof Date)
+        prst.setDate(i, (Date) field);
+      else if (field instanceof LocalDate)
         prst.setDate(i, Date.valueOf((LocalDate) field));
-      if (field instanceof Role)
+      else if (field instanceof Role)
         prst.setInt(i, ((Role) field).getRoleID());
+      else {
+        prst.setNull(i, Types.INTEGER);
+      }
     }
   }
 
-  public<T,V> T convertNullable(V value, Converter<T, V> converter) {
+  public <T, V> T convertNullable(V value, Converter<T, V> converter) {
     return Optional.ofNullable(value)
         .map(converter::convert)
         .orElse(null);

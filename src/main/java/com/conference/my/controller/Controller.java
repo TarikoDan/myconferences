@@ -18,7 +18,7 @@ public class Controller extends HttpServlet {
   private static final Logger LOGGER = LogManager.getLogger(Controller.class);
   private static final CommandContainer commandContainer = CommandContainer.getContainer();
   private static final long serialVersionUID = -6726429036252678102L;
-  public static final String REDIRECT = Pages.REDIRECT;
+  public static final String REDIRECT = Pages.REDIRECT_HOME;
   public static final String HOME = Pages.HOME;
 
 
@@ -49,8 +49,11 @@ public class Controller extends HttpServlet {
     LOGGER.debug("Controller finished, now go to forward address --> " + target);
 
     if (target != null ) {
-      if (target.contains(REDIRECT)) {
-        response.sendRedirect(HOME);
+      if (target.contains("redirect_")) {
+        target = target.replace("redirect_", "");
+        System.out.println(target);
+        response.sendRedirect(target);
+
       }else {
         RequestDispatcher dispatcher = request.getRequestDispatcher(target);
         dispatcher.forward(request, response);

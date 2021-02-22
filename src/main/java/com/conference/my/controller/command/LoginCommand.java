@@ -16,7 +16,6 @@ public class LoginCommand implements Command {
 
   @Override
   public String execute(HttpServletRequest request, HttpServletResponse response) {
-    final HttpSession session = request.getSession();
     final String email = request.getParameter("email");
     System.out.println("email = > " + email);
     final String password = request.getParameter("password");
@@ -60,7 +59,7 @@ public class LoginCommand implements Command {
       if (userRole == Role.SPEAKER || userRole == Role.VISITOR)
         result = Pages.HOME;
 
-      session.invalidate();
+      request.getSession().invalidate();
       final HttpSession newSession = request.getSession();
       newSession.setAttribute("user", user);
       LOGGER.trace("Set the session attribute: user --> " + user);

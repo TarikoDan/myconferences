@@ -89,9 +89,9 @@ public class UserDAOImp extends GenericDAO<User> implements UserDAO {
 
   @Override
   public boolean updateUserById(int userId, User newUser) {
-    final String VISIT_EVENT_BY_USER =
+    final String UPDATE_USER =
         "UPDATE user SET name = ? , email = ? , password = ? , role_id = ? WHERE id = ?";
-    try (PreparedStatement prst = connection.prepareStatement(VISIT_EVENT_BY_USER)) {
+    try (PreparedStatement prst = connection.prepareStatement(UPDATE_USER)) {
       return update(prst, newUser, userId) > 0;
     } catch (SQLException ex) {
       LOGGER.error("User with Id: {} wasn't updated", userId, ex);
@@ -201,7 +201,6 @@ public class UserDAOImp extends GenericDAO<User> implements UserDAO {
 
   private int update(PreparedStatement prst, User newUser, int id) throws SQLException {
     int res;
-    int k = 1;
     setInstance(prst,
         newUser.getName(),
         newUser.getEmail(),

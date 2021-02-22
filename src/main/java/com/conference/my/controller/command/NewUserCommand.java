@@ -60,7 +60,6 @@ public class NewUserCommand implements Command {
       return result;
 
     }
-    System.out.println(user);
     LOGGER.trace("Create in DB: newUser --> " + user);
 
     final Role userRole = user.getRole();
@@ -70,7 +69,7 @@ public class NewUserCommand implements Command {
 
 
     if (userRole == Role.VISITOR)
-      result = Pages.REDIRECT;
+      result = Pages.REDIRECT_HOME;
 
     LOGGER.debug("Command finished");
     return result;

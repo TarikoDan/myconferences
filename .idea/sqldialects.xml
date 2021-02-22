@@ -3,6 +3,8 @@
   <component name="SqlDialectMappings">
     <file url="file://$PROJECT_DIR$/sql/db-create-2.sql" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/sql/db-create.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/conference/my/model/dao/implementation/EventDAOImp.java" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/conference/my/model/dao/implementation/ReportDAOImp.java" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/conference/my/model/dao/implementation/UserDAOImp.java" dialect="MySQL" />
   </component>
 </project>

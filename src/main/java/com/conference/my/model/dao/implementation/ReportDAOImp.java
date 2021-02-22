@@ -4,6 +4,7 @@ import com.conference.my.model.dao.DAOFactory;
 import com.conference.my.model.dao.GenericDAO;
 import com.conference.my.model.dao.ReportDAO;
 import com.conference.my.model.dao.util.EntityTransformer;
+import com.conference.my.model.entity.Location;
 import com.conference.my.model.entity.Report;
 import com.conference.my.model.entity.User;
 import org.apache.logging.log4j.LogManager;
@@ -136,7 +137,14 @@ public class ReportDAOImp extends GenericDAO<Report> implements ReportDAO {
 
   @Override
   public boolean updateReportById(int reportId, Report newReport) {
-    return false;
+    final String UPDATE_REPORT =
+        "UPDATE report SET topic = ?, speaker = ? WHERE id = ?";
+    try (PreparedStatement prst = connection.prepareStatement(UPDATE_REPORT)) {
+      return update(prst, newReport, reportId) > 0;
+    } catch (SQLException ex) {
+      LOGGER.error("Report with Id: {} wasn't updated", reportId, ex);
+      throw new NoSuchElementException("Report wasn't updated");
+    }
   }
 
   @Override
@@ -174,5 +182,14 @@ public class ReportDAOImp extends GenericDAO<Report> implements ReportDAO {
     }
   };
 
+  private int update(PreparedStatement prst, Report newReport, int id) throws SQLException {
+    int res;
+    setInstance(prst,
+        newReport.getTopic(),
+        convertNullable(newReport.getSpeaker(), User::getId),
+        id);
+    res = prst.executeUpdate();
+    return res;
+  }
 
 }

@@ -6,20 +6,13 @@ import java.util.Set;
 public class User extends Entity{
   private static final long serialVersionUID = 1341851272702190416L;
   private String name;
-
-  public String getLastname() {
-    return lastname;
-  }
-
-  public void setLastname(String lastname) {
-    this.lastname = lastname;
-  }
-
   private String lastname;
   private String email;
   private String password;
   protected Role role;
   private Set<Integer> visitedEvents;
+  private Set<Integer> participatedEvents;
+  private Set<Integer> myReports;
 
   public User() { }
 
@@ -35,6 +28,14 @@ public class User extends Entity{
 
   public String getName() {
     return name;
+  }
+
+  public String getLastname() {
+    return lastname;
+  }
+
+  public void setLastname(String lastname) {
+    this.lastname = lastname;
   }
 
   public String getEmail() {
@@ -76,6 +77,40 @@ public class User extends Entity{
     if (this.visitedEvents == null)
       return false;
     return this.visitedEvents.contains(eventId);
+  }
+
+  public void addMyReport(int reportId) {
+    if (this.myReports == null)
+      this.myReports = new HashSet<>();
+
+    this.myReports.add(reportId);
+  }
+
+  public Set<Integer> getMyReports() {
+    return this.myReports;
+  }
+
+  public boolean isReportMine(int reportId) {
+    if (this.myReports == null)
+      return false;
+    return this.myReports.contains(reportId);
+  }
+
+  public void addParticipatedEvent(int eventId) {
+    if (this.participatedEvents == null)
+      this.participatedEvents = new HashSet<>();
+
+    this.participatedEvents.add(eventId);
+  }
+
+  public Set<Integer> getParticipatedEvents() {
+    return this.participatedEvents;
+  }
+
+  public boolean isEventParticipated(int eventId) {
+    if (this.participatedEvents == null)
+      return false;
+    return this.participatedEvents.contains(eventId);
   }
 
   @Override

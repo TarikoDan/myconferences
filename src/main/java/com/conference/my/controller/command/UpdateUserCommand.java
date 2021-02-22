@@ -66,7 +66,7 @@ public class UpdateUserCommand implements Command {
     session.removeAttribute("user");
     session.setAttribute("updatedUser", user);
 
-    result = Pages.REDIRECT;
+    result = Pages.REDIRECT_HOME;
 
     LOGGER.debug("Command finished");
     return result;

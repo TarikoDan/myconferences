@@ -22,11 +22,15 @@ public class CommandContainer {
     commands.put("newUser", new NewUserCommand());
     commands.put("settingsUser", new SettingsUserCommand());
     commands.put("updateUser", new UpdateUserCommand());
+    commands.put("navEvents", new NavEventsCommand());
 
     commands.put("registerUserForEvent", new RegisterUserForEventCommand());
     commands.put("visitEvent", new VisitEventCommand());
-    commands.put("navEvents", new NavEventsCommand());
 
+    commands.put("navReports", new NavReportsCommand());
+    commands.put("reportDetails", new ReportDetailsCommand());
+    commands.put("createOwnReport", new CreateOwnReportCommand());
+    commands.put("newReport", new NewReportCommand());
 
     LOGGER.debug("Command container was successfully initialized");
   }

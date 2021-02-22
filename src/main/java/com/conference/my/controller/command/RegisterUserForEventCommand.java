@@ -27,7 +27,7 @@ public class RegisterUserForEventCommand implements Command {
     event.addVisitor(userId);
 
     request.setAttribute("event", event);
-    return Pages.EVENT_DETAILS;
+    return Pages.VISITOR_EVENT_DETAILS;
 
   }
 }

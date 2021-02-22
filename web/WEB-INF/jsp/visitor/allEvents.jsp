@@ -16,7 +16,7 @@
         <button type="submit" class="btn btn-outline-primary disabled">Apply to all:</button>
     </div>
 
-    <div class="container-md col-md-5 mx-auto text-center">
+    <div class="container-md col-md-8 mx-auto text-center">
         <c:forEach items="${events}" var="event">
             <div
                 <c:choose>
@@ -33,13 +33,13 @@
             >
                 <h2><c:out value="${event.title}"/></h2>
                 <h4><c:out value="${event.date}"/></h4>
-                <h5><c:out value="${event.location}"/></h5>
+                <h6><c:out value="${event.location}"/></h6>
                 <c:if test="${event.hasVisitor(user.id) == false}">
                     <form method="post" action="controller">
                         <input type="hidden" name="command" value="registerUserForEvent">
                         <input type="hidden" name="eventId" value="${event.id}">
                         <input type="hidden" name="userId" value="${user.id}">
-                        <button type="submit" class="btn btn-dark">apply for visiting</button>
+                        <button type="submit" class="btn btn-outline-secondary btn-lg">apply for visiting</button>
                     </form>
                 </c:if>
 
@@ -47,13 +47,14 @@
                     <button type="reset"
                             class="btn btn-outline-light btn-lg">you are subscribed to this event
                     </button>
-                    <form action="controller" method="post">
+                    <form action="controller" method="post" class="my-3">
                         <input type="hidden" name="command" value="visitEvent"/>
                         <input type="hidden" name="eventId" value="${event.id}">
                         <input type="hidden" name="userId" value="${user.id}">
                         <button type="submit"
                                 class="btn btn-success btn-lg"
                                 <c:if test="${event.date != now}">
+                                    class="btn btn-outline-success btn-lg"
                                     disabled
                                 </c:if>
                         >visit event
@@ -67,11 +68,11 @@
                     </button>
                 </c:if>
 
-                <form method="post" action="controller">
+                <form method="post" action="controller" class="my-3">
                     <input type="hidden" name="command" value="eventDetails">
                     <input type="hidden" name="eventId" value="${event.id}">
                     <input type="hidden" name="userId" value="${user.id}">
-                    <button type="submit" class="btn btn-dark">event Details...</button>
+                    <button type="submit" class="btn btn-info btn-lg">event Details...</button>
                 </form>
 
                 <hr>

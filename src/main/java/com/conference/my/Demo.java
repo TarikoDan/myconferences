@@ -2,10 +2,12 @@ package com.conference.my;
 
 import com.conference.my.model.dao.*;
 import com.conference.my.model.entity.*;
+import org.apache.logging.log4j.util.PropertySource;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class Demo {
@@ -56,18 +58,14 @@ public class Demo {
 
     final Location.Builder builder = Location.newBuilder();
     final Location location = builder
-        .id(1)
-        .zipCode("82400")
+        .zipCode("65125")
         .country("Ukraine")
-        .region("Lviv")
-        .city("Stryi")
-        .street("Shevchenko")
-        .building("117")
-        .suite("302")
+        .region("Odessa")
+        .city("Odessa")
         .build();
 
     final LocationDAO locationDAO = DAOFactory.getLocationDAO();
-//    locationDAO.createNew(location);
+    locationDAO.createNew(location);
     locationDAO.findAll().forEach(System.out::println);
     System.out.println("--------------");
 
@@ -105,8 +103,44 @@ public class Demo {
     System.out.println(eventById9);
     System.out.println(futureEvents.stream().anyMatch(event -> event.getId() == eventById9.getId()));
 
+    final List<Event> allEventsWithoutReports = DAOFactory.getEventDAO().findAllEventsWithoutReports();
+    allEventsWithoutReports.forEach(System.out::println);
+
+    final Event event = new Event();
+    event.setTitle("Energy Economics Between Deserts And Oceans");
+    event.setDate(LocalDate.of(2021, 4, 11));
+    final Location lisbon = Location.newBuilder().zipCode("1000-020")
+        .country("Portugal")
+        .city("Lisbon")
+        .region("Iberia")
+        .street("Praca don Pedro")
+        .building("17")
+        .suite("14")
+        .build();
+//    event.setLocation(lisbon);
+
+//    System.out.println(DAOFactory.getEventDAO().createNewEvent(event));
+//    System.out.println(DAOFactory.getEventDAO().updateEvent(15, event));
+//    final List<Event> eventsWithoutReports = DAOFactory.getEventDAO().findAllFutureEventsWithoutReports();
+//    System.out.println(eventsWithoutReports.contains(event));
+//    System.out.println("----------");
+//    futureEvents.forEach(System.out::println);
+//    System.out.println("----------");
+//    futureEvents.sort(Comparator.comparing(Event::getTitle));
+//    futureEvents.forEach(System.out::println);
+//    System.out.println("----------");
+//    DAOFactory.getEventDAO().getFutureEvents().forEach(System.out::println);
+//    System.out.println("----------");
+//    System.out.println(DAOFactory.getEventDAO().getCountOfRegisteredForVisiting());
+
+
 
 //    System.out.println(DAOFactory.getUserDAO().updateUserById(5, userTest));
+    System.out.println("-----------");
+    DAOFactory.getReportDAO().findReportsWithoutSpeakers().forEach(System.out::println);
+    String target = "redirect_/WEB-INF/jsp/speaker/allReports.jsp";
+    target = target.replace("redirect_", "");
+    System.out.println(target);
   }
   
 

@@ -6,6 +6,7 @@ import com.conference.my.model.dao.GenericDAO;
 import com.conference.my.model.dao.util.EntityTransformer;
 import com.conference.my.model.entity.Event;
 import com.conference.my.model.entity.Location;
+import com.conference.my.model.entity.Report;
 import com.conference.my.model.entity.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -66,23 +67,18 @@ public class EventDAOImp extends GenericDAO<Event> implements EventDAO {
   public List<Event> findAllEvents() {
     final String FIND_ALL_EVENTS =
         "SELECT * FROM event";
-    try {
-      return findAll(FIND_ALL_EVENTS, connection);
-    } catch (SQLException ex) {
-      LOGGER.error("Searching Events Error", ex);
-      throw new NoSuchElementException("Data wasn't found");
-    }
+    return findAllByQuery(FIND_ALL_EVENTS);
   }
 
   @Override
   public List<Event> findAllEventsByDate(LocalDate fromDate, LocalDate toDate) {
     final String FIND_ALL_EVENTS_BY_DATE =
-        "SELECT * FROM event WHERE date BETWEEN ? AND ?";
+        "SELECT * FROM event WHERE date BETWEEN ? AND ? ORDER BY date";
     try {
       return findAllWithConditionssssssss(FIND_ALL_EVENTS_BY_DATE, connection, fromDate, toDate);
     } catch (SQLException ex) {
       LOGGER.error("Event in DateInterval from'{}' to'{}' wasn't found", fromDate, toDate, ex);
-      throw new NoSuchElementException("Event wasn't found");
+      throw new NoSuchElementException("Events weren't found");
     }
   }
 
@@ -95,7 +91,20 @@ public class EventDAOImp extends GenericDAO<Event> implements EventDAO {
       return findAllWithCondition(speakerId, FIND_ALL_EVENTS_BY_SPEAKER, connection);
     } catch (SQLException ex) {
       LOGGER.error("Event involving Speaker with Id: {} wasn't found", speakerId, ex);
-      throw new NoSuchElementException("Event wasn't found");
+      throw new NoSuchElementException("Events weren't found");
+    }
+  }
+
+  @Override
+  public List<Event> findAllEventsByReport(int reportId) {
+    final String FIND_ALL_EVENTS_BY_REPORT =
+        "SELECT * FROM event WHERE id IN " +
+            "(SELECT event_id FROM report_event WHERE report_id = ?)";
+    try {
+      return findAllWithConditionssssssss(FIND_ALL_EVENTS_BY_REPORT, connection, reportId);
+    } catch (SQLException ex) {
+      LOGGER.error("Events with Report(id:'{}') wasn't found", reportId, ex);
+      throw new NoSuchElementException("Events weren't found");
     }
   }
 
@@ -108,7 +117,7 @@ public class EventDAOImp extends GenericDAO<Event> implements EventDAO {
       return findAllWithConditionssssssss(FIND_ALL_EVENTS_BY_REGISTERED_VISITOR, connection, visitorId);
     } catch (SQLException ex) {
       LOGGER.error("Events with registered Visitor (Id: {}) wasn't found", visitorId, ex);
-      throw new NoSuchElementException("Event wasn't found");
+      throw new NoSuchElementException("Events weren't found");
     }
   }
 
@@ -121,43 +130,107 @@ public class EventDAOImp extends GenericDAO<Event> implements EventDAO {
       return findAllWithConditionssssssss(FIND_ALL_VISITED_EVENTS_BY_VISITOR, connection, visitorId);
     } catch (SQLException ex) {
       LOGGER.error("Events with visited by Visitor (Id: {}) wasn't found", visitorId, ex);
-      throw new NoSuchElementException("Event wasn't found");
+      throw new NoSuchElementException("Events weren't found");
     }
   }
 
   @Override
+  public List<Event> findAllEventsWithReports() {
+    final String FIND_ALL_EVENTS_WITH_REPORTS =
+        "SELECT * FROM event WHERE id IN" +
+            "(SELECT event_id FROM report_event)";
+    return findAllByQuery(FIND_ALL_EVENTS_WITH_REPORTS);
+  }
+
+  @Override
+  public List<Event> findAllEventsWithoutReports() {
+    final String FIND_ALL_EVENTS_WITHOUT_REPORTS =
+        "SELECT * FROM event WHERE id NOT IN" +
+            "(SELECT event_id FROM report_event)";
+    return findAllByQuery(FIND_ALL_EVENTS_WITHOUT_REPORTS);
+  }
+
+  @Override
+  public List<Event> findAllFutureEventsWithoutReports() {
+    final String FIND_ALL_FUTURE_EVENTS_WITHOUT_REPORTS =
+        "SELECT * FROM event WHERE date BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL 100 YEAR)" +
+             "AND id NOT IN (SELECT event_id FROM report_event);";
+    return findAllByQuery(FIND_ALL_FUTURE_EVENTS_WITHOUT_REPORTS);
+  }
+
+  @Override
   public List<Event> getPastEvents() {
-    return null;
+    return findAllEventsByDate(LocalDate.now().minusYears(100), LocalDate.now().minusDays(1));
   }
 
   @Override
   public List<Event> getFutureEvents() {
-    return findAllEventsByDate(LocalDate.now(), LocalDate.of(3000, 12, 31));
+    return findAllEventsByDate(LocalDate.now(), LocalDate.now().plusYears(100));
   }
 
   @Override
   public List<Event> getSortedEventsByDate() {
-    return null;
+    final String FIND_ALL_EVENTS_DATE_SORTED =
+        "SELECT * FROM event ORDER BY date";
+    return findAllByQuery(FIND_ALL_EVENTS_DATE_SORTED);
   }
 
   @Override
   public List<Event> getSortedEventsByTitle() {
-    return null;
+    final String FIND_ALL_EVENTS_TITLE_SORTED =
+        "SELECT * FROM event ORDER BY title";
+    return findAllByQuery(FIND_ALL_EVENTS_TITLE_SORTED);
   }
 
   @Override
   public List<Event> getSortedEventsByLocation() {
-    return null;
+    final String FIND_ALL_EVENTS_LOCATION_SORTED =
+        "SELECT * FROM event ORDER BY location_id";
+    return findAllByQuery(FIND_ALL_EVENTS_LOCATION_SORTED);
   }
 
   @Override
-  public List<Event> getSortedEventsByReportsNumber() {
-    return null;
+  public List<Event> getSortedEventsByReportsCount() {
+    final String FIND_ALL_EVENTS_SORTED_BY_REPORTS_NUMBER =
+        "SELECT e.id id, e.title title, e.date date, e.location_id" +
+            "FROM event e JOIN report_event re ON e.id = re.event_id" +
+            "GROUP BY re.event_id" +
+            "ORDER BY COUNT(re.event_id) DESC";
+    return findAllByQuery(FIND_ALL_EVENTS_SORTED_BY_REPORTS_NUMBER);
   }
 
   @Override
-  public List<Event> getSortedEventsByVisitorsNumber() {
-    return null;
+  public List<Event> getSortedEventsByVisitorsCount() {
+    final String FIND_ALL_EVENTS_SORTED_BY_VISITORS_NUMBER =
+        "SELECT e.id id, e.title title, e.date date, e.location_id" +
+            "FROM event e JOIN visitor_event ve ON e.id = ve.event_id AND ve.is_visited = TRUE" +
+            "GROUP BY ve.event_id" +
+            "ORDER BY COUNT(ve.event_id) DESC";
+    return findAllByQuery(FIND_ALL_EVENTS_SORTED_BY_VISITORS_NUMBER);
+  }
+
+  @Override
+  public List<Event> getSortedEventsByRegisteredForVisitingCount() {
+    final String FIND_ALL_EVENTS_SORTED_BY_NUMBER_OF_REGISTERED_VISITORS =
+        "SELECT e.id id, e.title title, e.date date, e.location_id" +
+            "FROM event e JOIN visitor_event ve ON e.id = ve.event_id" +
+            "GROUP BY ve.event_id" +
+            "ORDER BY COUNT(ve.event_id) DESC";
+    return findAllByQuery(FIND_ALL_EVENTS_SORTED_BY_NUMBER_OF_REGISTERED_VISITORS);
+  }
+
+  @Override
+  public int getTotalCountOfVisitors() {
+    final String GET_COUNT_OF_VISITORS =
+        "SELECT COUNT(is_visited) FROM visitor_event WHERE is_visited = TRUE";
+    return getCount(GET_COUNT_OF_VISITORS);
+  }
+
+  @Override
+  public int getTotalCountOfRegisteredForVisiting() {
+    final String GET_COUNT_OF_REGISTERED_FOR_VISITING =
+        "SELECT COUNT(*) FROM visitor_event";
+    return getCount(GET_COUNT_OF_REGISTERED_FOR_VISITING);
   }
 
   @Override
@@ -172,9 +245,19 @@ public class EventDAOImp extends GenericDAO<Event> implements EventDAO {
   }
 
   @Override
-  public boolean updateEventDate(int eventId, LocalDate newDate) {
-    return false;
+  public boolean updateEvent(int eventId, Event newEvent) {
+    final String UPDATE_EVENT =
+        "UPDATE event SET title = ?, date = ?, location_id = ? WHERE id = ?";
+    try (PreparedStatement prst = connection.prepareStatement(UPDATE_EVENT)) {
+      return update(prst, newEvent, eventId) > 0;
+    } catch (SQLException ex) {
+      LOGGER.error("Event with Id: {} wasn't updated", eventId, ex);
+      throw new NoSuchElementException("Event wasn't updated");
+    }
   }
+
+  @Override
+  public boolean updateEventDate(int eventId, LocalDate newDate) {return false;  }
 
   @Override
   public boolean updateEventLocation(int eventId, Location newLocation) {
@@ -203,11 +286,10 @@ public class EventDAOImp extends GenericDAO<Event> implements EventDAO {
     @Override
     public int insertEntity(PreparedStatement prst, Event event) throws SQLException {
       int res;
-      prst.setString(1, event.getTitle());
-      final Date date = convertNullable(event.getDate(), Date::valueOf);
-      prst.setDate(2, date);
-      final int locationId = convertNullable(event.getLocation(), Location::getId);
-      prst.setInt(3, locationId);
+      setInstance(prst,
+          event.getTitle(),
+          convertNullable(event.getDate(), Date::valueOf),
+          convertNullable(event.getLocation(), Location::getId));
       res = prst.executeUpdate();
       try (ResultSet generatedKeys = prst.getGeneratedKeys()) {
         if (generatedKeys.next()) {
@@ -217,6 +299,58 @@ public class EventDAOImp extends GenericDAO<Event> implements EventDAO {
       }
       return res;
     }
+//    @Override
+//    public int insertEntity(PreparedStatement prst, Event event) throws SQLException {
+//      int res;
+//      prst.setString(1, event.getTitle());
+//      final Date date = convertNullable(event.getDate(), Date::valueOf);
+//      prst.setDate(2, date);
+//      final int locationId = convertNullable(event.getLocation(), Location::getId);
+//      prst.setInt(3, locationId);
+//      res = prst.executeUpdate();
+//      try (ResultSet generatedKeys = prst.getGeneratedKeys()) {
+//        if (generatedKeys.next()) {
+//          int id = generatedKeys.getInt(1);
+//          event.setId(id);
+//        }
+//      }
+//      return res;
+//    }
   };
+
+  private List<Event> findAllByQuery(String query) {
+    try {
+      return findAll(query, connection);
+    } catch (SQLException ex) {
+      LOGGER.error("Searching Events Error", ex);
+      throw new NoSuchElementException("Data wasn't found");
+    }
+  }
+
+  private int getCount(String query) {
+    int count = 0;
+    try (Statement st = connection.createStatement();
+         ResultSet rs = st.executeQuery(query)) {
+      if (rs.next()) {
+        count = rs.getInt(1);
+      }
+    } catch (SQLException ex) {
+      LOGGER.error("Searching Events Error", ex);
+      throw new NoSuchElementException("Data wasn't found");
+    }
+    return count;
+  }
+
+  private int update(PreparedStatement prst, Event newEvent, int id) throws SQLException {
+    int res;
+    setInstance(prst,
+        newEvent.getTitle(),
+        convertNullable(newEvent.getDate(), Date::valueOf),
+        convertNullable(newEvent.getLocation(), Location::getId),
+        id);
+    res = prst.executeUpdate();
+    return res;
+  }
+
 
 }
