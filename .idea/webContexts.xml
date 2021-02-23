@@ -4,6 +4,7 @@
     <option name="state">
       <map>
         <entry key="file://$PROJECT_DIR$/web/WEB-INF/jsp/speaker/allEvents.jsp" value="file://$PROJECT_DIR$/web/WEB-INF/jsp/speaker" />
+        <entry key="file://$PROJECT_DIR$/web/WEB-INF/jsp/speaker/allReports.jsp" value="file://$PROJECT_DIR$/web/WEB-INF/jsp/speaker" />
         <entry key="file://$PROJECT_DIR$/web/WEB-INF/jspf/header.jspf" value="file://$PROJECT_DIR$/web/WEB-INF/jspf" />
       </map>
     </option>

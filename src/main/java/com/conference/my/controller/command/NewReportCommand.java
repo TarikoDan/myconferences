@@ -30,6 +30,14 @@ public class NewReportCommand implements Command {
       return result;
     }
 
+    final Report reportByTopic = DAOFactory.getReportDAO().findReportByTopic(topic);
+    if (reportByTopic != null) {
+      message = "Report on this topic has already been created";
+      request.setAttribute("errorMessage", message);
+      LOGGER.error("errorMessage --> " + message);
+      return result;
+    }
+
     final Report report = new Report();
     report.setTopic(topic);
     final boolean success = DAOFactory.getReportDAO().createNewReport(report);
@@ -42,9 +50,12 @@ public class NewReportCommand implements Command {
     LOGGER.trace("Create in DB: newReport --> " + report);
 
     final String speaker = request.getParameter("speaker");
+    final String id = request.getParameter("eventId");
     if (null != speaker && speaker.equals("speaker")) {
-      final int eventId = Integer.parseInt(request.getParameter("eventId"));
-      DAOFactory.getEventDAO().addReportToEvent(report.getId(), eventId);
+      if (null != id && !id.isEmpty()) {
+        final int eventId = Integer.parseInt(id);
+        DAOFactory.getEventDAO().addReportToEvent(report.getId(), eventId);
+      }
     }
 
 //    session.setAttribute("registered", user);

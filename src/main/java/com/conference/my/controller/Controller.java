@@ -51,7 +51,6 @@ public class Controller extends HttpServlet {
     if (target != null ) {
       if (target.contains("redirect_")) {
         target = target.replace("redirect_", "");
-        System.out.println(target);
         response.sendRedirect(target);
 
       }else {

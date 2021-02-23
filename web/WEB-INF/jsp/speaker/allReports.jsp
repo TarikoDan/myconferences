@@ -9,25 +9,43 @@
 <%@ include file="/WEB-INF/jspf/header.jspf" %>
 <%@ include file="/WEB-INF/jspf/info.jspf" %>
 
-<main class="position-relative">
+<main
+<%--        class="position-relative"--%>
+>
     <h6>REPORTs SPEAKER Page</h6>
     <div class="d-flex justify-content-end">
         <form method="post" action="controller" class="my-0 p-2">
             <input type="hidden" name="command" value="navReports"/>
             <input type="hidden" name="sortReports" value="sortReportsByTopic"/>
-            <button type="submit" class="btn btn-primary my-auto btn-sm btn-rounded">sort by TOPIC</button>
+            <button type="submit" class="btn btn-dark my-auto btn-sm btn-rounded">sort by TOPIC</button>
         </form>
         <form method="post" action="controller" class="my-0 p-2">
             <input type="hidden" name="command" value="navReports"/>
             <input type="hidden" name="sortReports" value="getAllMine"/>
-            <button type="submit" class="btn btn-primary my-auto btn-sm btn-rounded">get MY Reports</button>
+            <button type="submit" class="btn btn-dark my-auto btn-sm btn-rounded">get MY Reports</button>
         </form>
         <form method="post" action="controller" class="my-0 p-2">
             <input type="hidden" name="command" value="navReports"/>
             <input type="hidden" name="sortReports" value="withoutSpeakers"/>
-            <button type="submit" class="btn btn-primary my-auto btn-sm btn-rounded">withoutSpeakers</button>
+            <button type="submit" class="btn btn-dark my-auto btn-sm btn-rounded">withoutSpeakers</button>
         </form>
 
+    </div>
+
+    <div id="tooltip" hidden class="btn btn-outline-dark btn-rounded" style="position: fixed; top: 47%; right: 5%; overflow: hidden;">Add New Event</div>
+    <div class="border-light rounded-circle shadow-3-strong ripple m-3"
+         style="position: fixed; top: 50%; right: 7%; overflow: hidden;"
+    >
+        <form method="post" action="controller" class="m-0 p-0" >
+            <input type="hidden" name="command" value="createOwnReport"/>
+            <button type="submit"
+                    data-mdb-toggle="tooltip"
+                    title="Add new Report"
+                    class="btn btn-floating btn-lg m-0"
+                    id="addButton">
+                <img src="${pageContext.request.contextPath}/images/plus.png" alt="logo" style="object-fit: cover; width: 100%;">
+            </button>
+        </form>
     </div>
 
     <div class="container-md col-md-8 mx-auto text-center">
@@ -55,7 +73,7 @@
 
                 <form method="post" action="controller">
                     <input type="hidden" name="command" value="reportDetails">
-                    <input type="hidden" name="eventId" value="${report.id}">
+                    <input type="hidden" name="reportId" value="${report.id}">
                     <button type="submit" class="btn btn-info btn-block">report Details...</button>
                 </form>
 
@@ -64,20 +82,23 @@
 
     </div>
 
-<div class="position-absolute top-50 end-0 mx-4"
-<%--     style="background: #60d060; width: 50px; height: 50px"--%>
->
-    <form method="post" action="controller" >
-        <input type="hidden" name="command" value="createOwnReport"/>
-        <button type="submit" class="btn btn-rounded">
-            <img width="50px" src="${pageContext.request.contextPath}/images/plus.png" alt="logo">
-        </button>
-    </form>
-</div>
 </main>
 
 <%@ include file="/WEB-INF/jspf/footer.jspf" %>
 <%@ include file="/WEB-INF/jspf/script.jspf" %>
+
+<script>
+    const addButton = document.getElementById('addButton')
+    const tooltip = document.getElementById('tooltip')
+    addButton.addEventListener('mouseover', (event) => {
+        tooltip.hidden = false;
+    })
+    addButton.addEventListener('mouseleave', (event) => {
+        tooltip.hidden = true;
+    })
+
+</script>
+
 
 </body>
 </html>

@@ -10,32 +10,18 @@
 <c:set var="daysLeft" value="${event.date.toEpochDay()-now.toEpochDay()}"/>
 
 <div class="container-md col-md-6 mx-auto p-5 ">
-    <c:if test="${event.hasVisitor(user.id) == true}">
-        <h5 class="mb-3"><span class="badge bg-secondary text-dark">You are subscribed to this event</span></h5>
+    <c:if test="${reportWithoutSpeakers == true}">
+        <button type="reset" class="btn btn-outline-warning btn-lg my-3">
+            This report has no Speaker yet. You can become One.
+        </button>
     </c:if>
-    <c:if test="${user.isEventVisited(event.id) == true}">
-        <h5 class="mb-3"><span class="badge bg-success text-dark">You have already visited this event</span></h5>
+    <c:if test="${user.isReportMine(report.id) == true}">
+        <h4 class="my-3"><span class="badge badge-pill bg-success text-light">you are the author of this report</span></h4>
     </c:if>
 
-    <h1><c:out value="${event.title}"/></h1>
+    <h1><c:out value="${report.topic}"/></h1>
     <h3><c:out value="${event.date}"/></h3>
 
-    <ul class="list-group list-group-flush bg-transparent">
-        <li class="list-group-item bg-transparent"><span
-                class="badge bg-dark col-2">zipCode</span> ${event.location.zipCode}</li>
-        <li class="list-group-item bg-transparent"><span
-                class="badge bg-dark col-2">country</span> ${event.location.country}</li>
-        <li class="list-group-item bg-transparent"><span
-                class="badge bg-dark col-2">region</span> ${event.location.region}</li>
-        <li class="list-group-item bg-transparent"><span class="badge bg-dark col-2">city</span> ${event.location.city}
-        </li>
-        <li class="list-group-item bg-transparent"><span
-                class="badge bg-dark col-2">street</span> ${event.location.street}</li>
-        <li class="list-group-item bg-transparent"><span
-                class="badge bg-dark col-2">building</span> ${event.location.building}</li>
-        <li class="list-group-item bg-transparent"><span
-                class="badge bg-dark col-2">suite</span> ${event.location.suite}</li>
-    </ul>
 
     <%--    <table class="table table-responsive-sm">--%>
     <%--        <thead>--%>

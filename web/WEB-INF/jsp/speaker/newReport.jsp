@@ -40,13 +40,12 @@
             </label>
         </div>
 
-        <div class="row mb-4">
+        <div class="row mb-4" hidden id="inputselect">
             <div class="col">
                 <div class="form-outline">
-<%--                    <label class="form-label" for="select">choose an Event:</label>--%>
-
-                    <select name="eventId" id="select" class="form-control">
-                        <option >choose an Event:</option>
+<%--                    <label class="form-label text-light" for="select">choose an Event:</label>--%>
+                    <select name="eventId" id="select" class="form-control" style="background: white; border: 1px solid #e6c015">
+                        <option disabled selected value="${null}">choose an Event:</option>
                         <c:forEach var="event" items="${events}">
                             <option value="${event.id}">${event.title}</option>
                         </c:forEach>
@@ -66,6 +65,15 @@
 
     <%@ include file="/WEB-INF/jspf/footer.jspf"%>
     <%@ include file="/WEB-INF/jspf/script.jspf"%>
+
+<script>
+    const checkbox = document.getElementById('reportToEvent')
+    const select = document.getElementById('inputselect')
+
+    checkbox.addEventListener('change', (event) => {
+        select.hidden = !event.currentTarget.checked;
+    })
+</script>
 
 </body>
 </html>
